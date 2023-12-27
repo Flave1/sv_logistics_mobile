@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { Header, InputField, Button } from "../components";
 import { AndroidSafeArea } from "../constants";
-import { CameraSvg } from "../svg";
+import { CameraSvg } from "./svg";
 
 export default function AddNewCard() {
     const navigation = useNavigation();

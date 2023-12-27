@@ -14,7 +14,7 @@ import { Shadow } from "react-native-shadow-2";
 
 import { Header } from "../components";
 import { AndroidSafeArea, COLORS, creditCards, FONTS } from "../constants";
-import { ApplePaySvg, EditTwoSvg, PayPalSvg, PlusTwoSvg } from "../svg";
+import { ApplePaySvg, EditTwoSvg, PayPalSvg, PlusTwoSvg } from "./svg";
 
 export default function PaymentMethod() {
     const navigation = useNavigation();

@@ -8,7 +8,7 @@ export default function Button({title, containerStyle, onPress, textStyle}) {
     <TouchableOpacity
       style={{
         height: 50,
-        backgroundColor: COLORS.green,
+        backgroundColor: COLORS.orange,
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',

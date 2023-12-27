@@ -86,7 +86,7 @@ export default function Favorite() {
           }}>
           <TouchableOpacity
             style={{
-              backgroundColor: favorite === 'Places' ? COLORS.green : '#F3F7FF',
+              backgroundColor: favorite === 'Places' ? COLORS.orange : '#F3F7FF',
               borderRadius: 50,
               marginHorizontal: 5,
             }}
@@ -105,7 +105,7 @@ export default function Favorite() {
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              backgroundColor: favorite === 'Food' ? COLORS.green : '#F3F7FF',
+              backgroundColor: favorite === 'Food' ? COLORS.orange : '#F3F7FF',
               borderRadius: 50,
               marginHorizontal: 5,
             }}

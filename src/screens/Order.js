@@ -11,7 +11,7 @@ import {
   MinusSvg,
   BasketSvg,
   PromocodeAppliedSvg,
-} from '../svg';
+} from './svg';
 import {Button} from '../components';
 import {COLORS, FONTS, AndroidSafeArea, dummyData, dishes} from '../constants';
 
@@ -247,7 +247,7 @@ export default function Order() {
               style={{
                 fontFamily: 'Lato-Regular',
                 fontSize: 14,
-                color: COLORS.green,
+                color: COLORS.orange,
               }}>
               Free
             </Text>

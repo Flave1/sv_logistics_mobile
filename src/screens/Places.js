@@ -27,7 +27,7 @@ import {
   ProfileArrowSvg,
   FilterSvg,
   MicrophoneSvg,
-} from '../svg';
+} from './svg';
 
 export default function Places() {
   const navigation = useNavigation();

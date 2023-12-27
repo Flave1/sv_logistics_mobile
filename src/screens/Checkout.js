@@ -22,7 +22,7 @@ import {
     CrossSvg,
     PayPalSvg,
     ApplePaySvg,
-} from "../svg";
+} from "./svg";
 
 const addresses = [
     {
@@ -222,7 +222,7 @@ export default function Checkout() {
                                             style={{
                                                 width: 10,
                                                 height: 10,
-                                                backgroundColor: COLORS.green,
+                                                backgroundColor: COLORS.orange,
                                                 borderRadius: 5,
                                             }}
                                         />
@@ -327,7 +327,7 @@ export default function Checkout() {
                                                     width: 10,
                                                     height: 10,
                                                     backgroundColor:
-                                                        COLORS.green,
+                                                        COLORS.orange,
                                                     borderRadius: 5,
                                                 }}
                                             />
@@ -378,7 +378,7 @@ export default function Checkout() {
                                                     width: 10,
                                                     height: 10,
                                                     backgroundColor:
-                                                        COLORS.green,
+                                                        COLORS.orange,
                                                     borderRadius: 5,
                                                 }}
                                             />
@@ -441,7 +441,7 @@ export default function Checkout() {
                                                     width: 10,
                                                     height: 10,
                                                     backgroundColor:
-                                                        COLORS.green,
+                                                        COLORS.orange,
                                                     borderRadius: 5,
                                                 }}
                                             />

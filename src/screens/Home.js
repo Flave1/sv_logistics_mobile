@@ -28,7 +28,7 @@ import {
   SushiSvg,
   DoughnutSvg,
   FreeFromSvg,
-} from '../svg';
+} from './svg';
 
 const categories = [
   {
@@ -66,7 +66,7 @@ export default function Home() {
   function renderHeader() {
     return (
       <ImageBackground
-        source={{uri: 'https://via.placeholder.com/1125x540'}}
+        source={{uri: 'https://cdn.pixabay.com/photo/2017/11/12/19/17/vegetables-landscape-2943500_1280.jpg'}}//https://via.placeholder.com/1125x540
         style={{
           height: 180,
           paddingHorizontal: 16,
@@ -144,7 +144,7 @@ export default function Home() {
                   textAlign: 'center',
                   marginTop: 8,
                   color:
-                    category === item.category ? COLORS.green : COLORS.gray,
+                    category === item.category ? COLORS.orange : COLORS.gray,
                   ...FONTS.Lato_400Regular,
                   fontSize: 14,
                   lineHeight: 14 * 1.5,

@@ -14,7 +14,7 @@ import {Shadow} from 'react-native-shadow-2';
 
 import {AndroidSafeArea, COLORS, FONTS, dummyData} from '../constants';
 import {Header} from '../components';
-import {ElementTwoSvg, DeliveredSvg} from '../svg';
+import {ElementTwoSvg, DeliveredSvg} from './svg';
 
 export default function OrderHistory() {
   const navigation = useNavigation();

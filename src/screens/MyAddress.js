@@ -13,7 +13,7 @@ import Modal from "react-native-modal";
 
 import { Header, Button, InputField } from "../components";
 import { FONTS, AndroidSafeArea, COLORS, SIZES } from "../constants";
-import { HomeTwoSvg, BriefcaseSvg, MapPinSvg, CrossSvg } from "../svg";
+import { HomeTwoSvg, BriefcaseSvg, MapPinSvg, CrossSvg } from "./svg";
 
 const address = [
     {
@@ -199,7 +199,7 @@ export default function MyAddress() {
                                 style={{
                                     width: 10,
                                     height: 10,
-                                    backgroundColor: COLORS.green,
+                                    backgroundColor: COLORS.orange,
                                     borderRadius: 5,
                                 }}
                             />

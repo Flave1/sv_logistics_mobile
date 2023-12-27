@@ -3,13 +3,14 @@ import {Platform, StatusBar} from 'react-native';
 const {width, height} = Dimensions.get('window');
 
 export const COLORS = {
-  green: '#00824B',
+  orange: '#fc8019',
   white: '#FFFFFF',
   lightBlue: '#F3F7FF',
   black: '#222222',
   gray: '#7D849A',
   lightGray: '#E2E2E2',
   carrot: '#FD5252',
+  green: '#00824B',
 
   transparent: 'transparent',
   transparentWhite1: 'rgba(255, 255, 255, 0.1)',

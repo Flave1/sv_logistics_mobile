@@ -9,7 +9,7 @@ import CartIsEmpty from '../screens/CartIsEmpty';
 import Favorite from '../screens/Favorite';
 import Profile from '../screens/Profile';
 
-import {HomeSvg, ProfileSvg, HeartSvg, BagSvg, PlaceSvg} from '../svg';
+import {HomeSvg, ProfileSvg, HeartSvg, BagSvg, PlaceSvg} from './svg';
 import {COLORS, SIZES, dishes, FONTS} from '../constants';
 
 export default function MainLayout() {
@@ -22,7 +22,7 @@ export default function MainLayout() {
       id: '1',
       screen: 'Home',
       icon: (
-        <HomeSvg color={selectedTab == 'Home' ? COLORS.green : COLORS.gray} />
+        <HomeSvg color={selectedTab == 'Home' ? COLORS.orange : COLORS.gray} />
       ),
     },
     {
@@ -30,7 +30,7 @@ export default function MainLayout() {
       screen: 'Places',
       icon: (
         <PlaceSvg
-          color={selectedTab == 'Places' ? COLORS.green : COLORS.gray}
+          color={selectedTab == 'Places' ? COLORS.orange : COLORS.gray}
         />
       ),
     },
@@ -52,7 +52,7 @@ export default function MainLayout() {
             style={{
               width: 64,
               height: 64,
-              backgroundColor: COLORS.green,
+              backgroundColor: COLORS.orange,
               borderRadius: 35,
               justifyContent: 'center',
               alignItems: 'center',
@@ -76,7 +76,7 @@ export default function MainLayout() {
                   fontSize: 12,
                   color: COLORS.golden,
                   ...FONTS.Lato_900Black,
-                  color: COLORS.green,
+                  color: COLORS.orange,
                 }}>
                 5
               </Text>
@@ -87,7 +87,7 @@ export default function MainLayout() {
               fontSize: 12,
               fontFamily: 'Lato-Regular',
               textAlign: 'center',
-              color: COLORS.green,
+              color: COLORS.orange,
               position: 'absolute',
               bottom: -15,
             }}>
@@ -101,7 +101,7 @@ export default function MainLayout() {
       screen: 'Favorite',
       icon: (
         <HeartSvg
-          color={selectedTab == 'Favorite' ? COLORS.green : COLORS.gray}
+          color={selectedTab == 'Favorite' ? COLORS.orange : COLORS.gray}
         />
       ),
     },
@@ -110,7 +110,7 @@ export default function MainLayout() {
       screen: 'Profile',
       icon: (
         <ProfileSvg
-          color={selectedTab == 'Profile' ? COLORS.green : COLORS.gray}
+          color={selectedTab == 'Profile' ? COLORS.orange : COLORS.gray}
         />
       ),
     },
@@ -171,7 +171,7 @@ export default function MainLayout() {
                           borderRadius: 2,
                           backgroundColor:
                             selectedTab == item.screen
-                              ? COLORS.green
+                              ? COLORS.orange
                               : COLORS.transparent,
                           marginTop: 4,
                         }}
@@ -184,7 +184,7 @@ export default function MainLayout() {
                           fontFamily: 'Lato-Regular',
                           color:
                             selectedTab == item.screen
-                              ? COLORS.green
+                              ? COLORS.orange
                               : COLORS.gray,
                         }}>
                         {item.screen}

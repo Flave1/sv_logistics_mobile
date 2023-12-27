@@ -2,7 +2,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 
 import {FONTS, COLORS} from '../constants';
-import {ArrowSvg} from '../svg';
+import {ArrowSvg} from '../screens/svg';
 
 export default function Header({goBack = true, onPress, title, titleStyle}) {
   return (

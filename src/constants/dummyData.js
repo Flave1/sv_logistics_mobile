@@ -98,16 +98,16 @@ const dummyData = [
         freeDeliveryFrom: "100",
         rating: "5.0",
         photo_219x219: {
-            uri: "https://via.placeholder.com/219x219",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-1.ccf464248c38e8f0cca0.jpg",//https://via.placeholder.com/219x219
         },
         photo_312x324: {
-            uri: "https://via.placeholder.com/312x324",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-1.ccf464248c38e8f0cca0.jpg",//https://via.placeholder.com/312x324
         },
         photo_426x420: {
-            uri: "https://via.placeholder.com/426x420",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-1.ccf464248c38e8f0cca0.jpg",//https://via.placeholder.com/426x420
         },
         offer: {
-            uri: "https://via.placeholder.com/343x170",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-1.ccf464248c38e8f0cca0.jpg",//https://via.placeholder.com/343x170
         },
         sale: "true",
         price: "$30.00",
@@ -136,16 +136,16 @@ const dummyData = [
         freeDeliveryFrom: "100",
         rating: "5.0",
         photo_219x219: {
-            uri: "https://via.placeholder.com/219x219",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-3.a3a5f4d03926cf53a16d.jpg",//https://via.placeholder.com/219x219
         },
         photo_312x324: {
-            uri: "https://via.placeholder.com/312x324",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-3.a3a5f4d03926cf53a16d.jpg",//https://via.placeholder.com/312x324
         },
         photo_426x420: {
-            uri: "https://via.placeholder.com/426x420",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-3.a3a5f4d03926cf53a16d.jpg",//https://via.placeholder.com/426x420
         },
         offer: {
-            uri: "https://via.placeholder.com/343x170",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-3.a3a5f4d03926cf53a16d.jpg",//https://via.placeholder.com/343x170
         },
         sale: "true",
         price: "$38.00",
@@ -174,16 +174,16 @@ const dummyData = [
         freeDeliveryFrom: "100",
         rating: "5.0",
         photo_219x219: {
-            uri: "https://via.placeholder.com/219x219",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-4.3bf12b6c16e4ffe32cec.jpg",//https://via.placeholder.com/219x219
         },
         photo_312x324: {
-            uri: "https://via.placeholder.com/312x324",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-4.3bf12b6c16e4ffe32cec.jpg",//https://via.placeholder.com/312x324
         },
         photo_426x420: {
-            uri: "https://via.placeholder.com/426x420",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-4.3bf12b6c16e4ffe32cec.jpg",//https://via.placeholder.com/426x420
         },
         offer: {
-            uri: "https://via.placeholder.com/343x170",
+            uri: "https://fooddesk.dexignlab.com/react/demo/static/media/pic-4.3bf12b6c16e4ffe32cec.jpg",//https://via.placeholder.com/343x170
         },
         sale: "true",
         price: "$38.00",

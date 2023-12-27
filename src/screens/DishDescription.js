@@ -20,7 +20,7 @@ import {
   PlaceSvg,
   MinusSvg,
   ArrowSvg,
-} from '../svg';
+} from './svg';
 
 export default function DishDescription() {
   navigation = useNavigation();
@@ -54,7 +54,7 @@ export default function DishDescription() {
             style={{
               width: 64,
               height: 64,
-              backgroundColor: COLORS.green,
+              backgroundColor: COLORS.orange,
               borderRadius: 35,
               justifyContent: 'center',
               alignItems: 'center',
@@ -78,7 +78,7 @@ export default function DishDescription() {
                   fontSize: 12,
                   color: COLORS.golden,
                   ...FONTS.Lato_900Black,
-                  color: COLORS.green,
+                  color: COLORS.orange,
                 }}>
                 5
               </Text>
@@ -89,7 +89,7 @@ export default function DishDescription() {
               fontSize: 12,
               fontFamily: 'Lato-Regular',
               textAlign: 'center',
-              color: COLORS.green,
+              color: COLORS.orange,
               position: 'absolute',
               bottom: -15,
             }}>

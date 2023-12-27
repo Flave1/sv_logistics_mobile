@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { AndroidSafeArea, COLORS, FONTS } from "../constants";
 import { Button, InputField, Header } from "../components";
-import { EyeOffSvg } from "../svg";
+import { EyeOffSvg } from "./svg";
 
 export default function ResetPassword() {
     const navigation = useNavigation();

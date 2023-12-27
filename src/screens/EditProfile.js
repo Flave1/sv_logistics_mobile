@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { AndroidSafeArea, COLORS } from "../constants";
 import { Header, InputField, Button } from "../components";
-import { CheckSvg } from "../svg";
+import { CheckSvg } from "./svg";
 
 export default function EditProfile() {
     const navigation = useNavigation();

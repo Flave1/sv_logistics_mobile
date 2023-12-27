@@ -20,7 +20,7 @@ import {
   GiftSvg,
   LogOutSvg,
   EditSvg,
-} from '../svg';
+} from './svg';
 
 export default function Profile() {
   const navigation = useNavigation();

@@ -11,7 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {Header} from '../components';
 import {AndroidSafeArea, COLORS, FONTS} from '../constants';
-import {CopySvg} from '../svg';
+import {CopySvg} from './svg';
 
 const promocodes = [
   {
@@ -85,7 +85,7 @@ export default function MyPromocodes() {
           <TouchableOpacity
             style={{
               backgroundColor:
-                favorite === 'Current' ? COLORS.green : '#F3F7FF',
+                favorite === 'Current' ? COLORS.orange : '#F3F7FF',
               borderRadius: 50,
               marginHorizontal: 5,
             }}
@@ -104,7 +104,7 @@ export default function MyPromocodes() {
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              backgroundColor: favorite === 'Used' ? COLORS.green : '#F3F7FF',
+              backgroundColor: favorite === 'Used' ? COLORS.orange : '#F3F7FF',
               borderRadius: 50,
               marginHorizontal: 5,
             }}

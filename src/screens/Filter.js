@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { Header, Button } from "../components";
 import { AndroidSafeArea, COLORS, FONTS } from "../constants";
-import { SelectSvg, CheckTwoSvg } from "../svg";
+import { SelectSvg, CheckTwoSvg } from "./svg";
 
 const sortBy = [
     {

@@ -33,7 +33,7 @@ import {
   GoogleSvg,
   TwitterSvg,
   PlusSvg,
-} from '../svg';
+} from './svg';
 
 const categories = [
   {
@@ -95,7 +95,7 @@ export default function RestaurantMenu() {
             style={{
               width: 64,
               height: 64,
-              backgroundColor: COLORS.green,
+              backgroundColor: COLORS.orange,
               borderRadius: 35,
               justifyContent: 'center',
               alignItems: 'center',
@@ -119,7 +119,7 @@ export default function RestaurantMenu() {
                   fontSize: 12,
                   color: COLORS.golden,
                   ...FONTS.Lato_900Black,
-                  color: COLORS.green,
+                  color: COLORS.orange,
                 }}>
                 5
               </Text>
@@ -130,7 +130,7 @@ export default function RestaurantMenu() {
               fontSize: 12,
               fontFamily: 'Lato-Regular',
               textAlign: 'center',
-              color: COLORS.green,
+              color: COLORS.orange,
               position: 'absolute',
               bottom: -15,
             }}>
@@ -257,7 +257,7 @@ export default function RestaurantMenu() {
                 style={{
                   ...FONTS.Lato_400Regular,
                   fontSize: 14,
-                  color: COLORS.green,
+                  color: COLORS.orange,
                 }}>
                 ${restaurant.freeDeliveryFrom}
               </Text>
@@ -593,7 +593,7 @@ export default function RestaurantMenu() {
                     ...FONTS.Lato_400Regular,
                     fontSize: 14,
                     lineHeight: 14 * 1.5,
-                    color: COLORS.green,
+                    color: COLORS.orange,
                   }}>
                   ${restaurant.freeDeliveryFrom}
                 </Text>
@@ -601,7 +601,7 @@ export default function RestaurantMenu() {
                   style={{
                     ...FONTS.Lato_400Regular,
                     fontSize: 14,
-                    color: COLORS.green,
+                    color: COLORS.orange,
                   }}>
                   {' '}
                   in order
