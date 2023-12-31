@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Shadow} from 'react-native-shadow-2';
 import {useNavigation} from '@react-navigation/native';
 
@@ -21,14 +21,29 @@ import {
   LogOutSvg,
   EditSvg,
 } from './svg';
+import {
+  LoginUserOutAction,
+  removeBoardedUser,
+} from '../context/actions/auth-actions';
+import {connect, useDispatch} from 'react-redux';
 
-export default function Profile() {
+function Profile(props) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!props.user) {
+      navigation.navigate('SignIn');
+      return;
+    }
+  }, [props.user]);
 
   function renderHeader() {
     return (
       <ImageBackground
-        source={{uri: 'https://via.placeholder.com/1125x540'}}
+        source={{
+          uri: 'https://cdn.pixabay.com/photo/2018/04/13/17/14/vegetable-skewer-3317060_1280.jpg',
+        }} //https://via.placeholder.com/1125x540
         style={{
           height: 180,
           paddingHorizontal: 16,
@@ -95,7 +110,7 @@ export default function Profile() {
                 marginRight: 16,
               }}
               source={{
-                uri: 'https://via.placeholder.com/210x210',
+                uri: 'https://icons.veryicon.com/png/o/miscellaneous/standard/avatar-15.png', //https://via.placeholder.com/210x210
               }}
             />
             <View>
@@ -105,7 +120,7 @@ export default function Profile() {
                   color: COLORS.black,
                   lineHeight: 24 * 1.2,
                 }}>
-                Darlene Robertson
+                {props.user?.firstName + ' ' + props.user?.lastName}
               </Text>
               <Text
                 style={{
@@ -114,7 +129,7 @@ export default function Profile() {
                   color: COLORS.gray,
                   lineHeight: 14 * 1.5,
                 }}>
-                darlenerobertson@mail.com
+                {props.user?.phoneNumber}
               </Text>
             </View>
             <View style={{position: 'absolute', top: 16, right: 16}}>
@@ -149,10 +164,32 @@ export default function Profile() {
           icon={<GiftSvg />}
           onPress={() => navigation.navigate('MyPromocodes')}
         />
+        {props.user ? (
+          <ProfileCategory
+            title="Sign Out"
+            icon={<LogOutSvg />}
+            onPress={async () => {
+              await LoginUserOutAction()(dispatch);
+              // navigation.navigate({
+              //   name: 'MainLayout',
+              //   params: {screenToDisplay: 'Home'},
+              // });
+            }}
+          />
+        ) : (
+          <ProfileCategory
+            title="Sign In"
+            icon={<LogOutSvg />}
+            onPress={() => navigation.navigate('SignIn')}
+          />
+        )}
+
         <ProfileCategory
-          title="Sign Out"
+          title="Refresh App"
           icon={<LogOutSvg />}
-          onPress={() => navigation.navigate('SignIn')}
+          onPress={() => {
+            removeBoardedUser()(dispatch);
+          }}
         />
       </View>
     );
@@ -171,3 +208,10 @@ export default function Profile() {
     </View>
   );
 }
+const mapStateToProps = state => {
+  return {
+    user: state.authState.user,
+  };
+};
+
+export default connect(mapStateToProps)(Profile);

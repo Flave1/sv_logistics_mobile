@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Shadow} from 'react-native-shadow-2';
 import {useNavigation} from '@react-navigation/native';
 
@@ -12,11 +12,16 @@ import Profile from '../screens/Profile';
 import {HomeSvg, ProfileSvg, HeartSvg, BagSvg, PlaceSvg} from './svg';
 import {COLORS, SIZES, dishes, FONTS} from '../constants';
 
-export default function MainLayout() {
+export default function MainLayout(props) {
   const navigation = useNavigation();
 
   const [selectedTab, setSelectedTab] = useState('Home');
 
+  // useEffect(() => {
+  //   if (props.route.params) {
+  //     selectedTab(props.route.params?.screenToDisplay);
+  //   }
+  // }, [screenToDisplay]);
   const tabs = [
     {
       id: '1',

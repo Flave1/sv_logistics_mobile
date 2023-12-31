@@ -31,7 +31,7 @@ import {
 
 const Stack = createStackNavigator();
 
-export default function Navigation() {
+export default function AuthNavigation() {
     return (
         <NavigationContainer>
             <Stack.Navigator
@@ -43,9 +43,8 @@ export default function Navigation() {
                     },
                     headerShown: false,
                 }}
-                initialRouteName="OnBoarding"
+                initialRouteName={'MainLayout'}
             >
-                <Stack.Screen name="OnBoarding" component={OnBoarding} />
                 <Stack.Screen name="Order" component={Order} />
                 <Stack.Screen name="Filter" component={Filter} />
                 <Stack.Screen

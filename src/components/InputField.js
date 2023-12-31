@@ -9,6 +9,8 @@ export default function InputField({
   icon,
   title,
   secureTextEntry,
+  onChange,
+  value,
 }) {
   return (
     <View
@@ -37,7 +39,10 @@ export default function InputField({
           borderBottomColor: COLORS.lightGray,
         }}>
         <TextInput
+          onChange={onChange}
+          value={value}
           placeholder={placeholder}
+          color={COLORS.black}
           style={{
             flex: 1,
             paddingRight: 15,

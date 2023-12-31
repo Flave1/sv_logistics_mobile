@@ -17,6 +17,8 @@ import {
   ArrowSvg,
   ImageThreeSvg,
 } from '../svg';
+import { onBoardUser } from '../../context/actions/auth-actions';
+import { useDispatch } from 'react-redux';
 
 const slides = [
   {
@@ -45,7 +47,7 @@ const slides = [
 
 export default function OnBoarding() {
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef();
 
@@ -109,7 +111,10 @@ export default function OnBoarding() {
               alignItems: 'flex-end',
               paddingHorizontal: 16,
             }}
-            onPress={() => navigation.navigate('SignIn')}>
+            onPress={() => {
+              navigation.navigate('SignIn')
+
+            }}>
             <SkipSvg />
           </TouchableOpacity>
         )}
@@ -206,7 +211,7 @@ export default function OnBoarding() {
             }}
             onPress={
               currentSlideIndex == slides.length - 1
-                ? () => navigation.navigate('SignIn')
+                ? () => onBoardUser()(dispatch)
                 : goToNextSlide
             }>
             <Text
