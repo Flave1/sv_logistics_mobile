@@ -11,11 +11,12 @@ export const REGISTER_USER = '[REGISTER_USER_ACTION] Register in user';
 export const ONBOARD_ACTION = '[ONBOARD_ACTION] Onboard user';
 export const OFFBOARD_ACTION = '[OFFBOARD_ACTION] Remove boarded user';
 
-export const LoginAction = (email: any, password: any) => {
-  return (dispatch: any) =>
+export const LoginAction = (email, password) => {
+  return (dispatch) =>
     signin(email, password)
       .then(response => {
         storeUserToken(response.data.access_token).then(() => {
+            
           getUserContext().then(context => {
             dispatch({
               type: LOGIN_ACTION,
@@ -31,7 +32,7 @@ export const LoginAction = (email: any, password: any) => {
 };
 
 export const LoginUserOutAction = () => {
-  return (dispatch: any) =>
+  return (dispatch) =>
     clearUserToken()
       .then(() => {
         dispatch({
@@ -45,7 +46,7 @@ export const LoginUserOutAction = () => {
 };
 
 export const onBoardUser = () => {
-  return (dispatch: any) =>
+  return (dispatch) =>
     dispatch({
       type: ONBOARD_ACTION,
       payload: 'ONBOARDED',
@@ -53,7 +54,7 @@ export const onBoardUser = () => {
 };
 
 export const removeBoardedUser = () => {
-  return (dispatch: any) =>
+  return (dispatch) =>
     dispatch({
       type: OFFBOARD_ACTION,
       payload: 'NOT_BOARDED',

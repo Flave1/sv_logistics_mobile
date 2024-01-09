@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosError } from 'axios';
 import { Alert } from 'react-native';
 const axiosInstance = axios.create({
-    baseURL: 'https://18.212.253.31:3200/',
+    baseURL: 'http://3.81.254.132:3200/',
     headers: {
         Authorization: '',
     },

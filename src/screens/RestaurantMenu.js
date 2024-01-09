@@ -1,70 +1,75 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  ImageBackground,
-  Image,
-} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, ScrollView, ImageBackground, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {Shadow} from 'react-native-shadow-2';
 import Modal from 'react-native-modal';
 
-import {COLORS, SIZES, dishes, FONTS} from '../constants';
-import {
-  HomeSvg,
-  ProfileSvg,
-  HeartSvg,
-  BagSvg,
-  PlaceSvg,
-  CroissantSvg,
-  InfoSvg,
-  ArrowTwo,
-  TruckSvg,
-  StarThreeSvg,
-  CrossSvg,
-  PhoneSvg,
-  MapPinTwoSvg,
-  MailSvg,
-  ClockSvg,
-  TruckTwoSvg,
-  FacebookSvg,
-  GoogleSvg,
-  TwitterSvg,
-  PlusSvg,
-} from './svg';
+import {COLORS, SIZES, dishes, FONTS, dummyData} from '../constants';
+import {HomeSvg, ProfileSvg, HeartSvg, BagSvg, PlaceSvg, CroissantSvg, InfoSvg, ArrowTwo, TruckSvg, StarThreeSvg, CrossSvg, PhoneSvg, MapPinTwoSvg, MailSvg, ClockSvg, TruckTwoSvg, FacebookSvg, GoogleSvg, TwitterSvg, PlusSvg} from './svg';
+import {AddToCartAction, ClearCartAction, GetRestaurantCategoriesAction, GetRestaurantMenuAction, GetRestaurantMenuByCategoryAction} from '../context/actions';
+import {connect, useDispatch, useSelector} from 'react-redux';
+import BottomTabs from '../components/BottomTabs';
 
-const categories = [
-  {
-    id: '1',
-    category: 'Most Popular',
-  },
-  {
-    id: '2',
-    category: 'Cakes',
-  },
-  {
-    id: '3',
-    category: 'Ice-cream',
-  },
-  {
-    id: '4',
-    category: 'Pasta',
-  },
-  {
-    id: '5',
-    category: 'Drinks',
-  },
-];
+// const categories = [
+//   {
+//     id: 1,
+//     category: 'Most Popular',
+//   },
+//   {
+//     id: 2,
+//     category: 'Cakes',
+//   },
+//   {
+//     id: 3,
+//     category: 'Ice-cream',
+//   },
+//   {
+//     id: 4,
+//     category: 'Pasta',
+//   },
+//   {
+//     id: 5,
+//     category: 'Drinks',
+//   },
+// ];
 
-export default function RestaurantMenu() {
+function RestaurantMenu({shopCategories, shopMenu, user}) {
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
   const {restaurant} = route.params;
   const [selectedTab, setSelectedTab] = useState('Home');
   const [showInfoModal, setShowInfoModal] = useState(false);
-  const [category, setCategory] = useState('Most Popular');
+  const [category, setCategory] = useState();
+  const [allCategory, setAllCategory] = useState([]);
+  const [allMenu, setAllMenu] = useState([]);
+
+  const {menuCart} = useSelector(state => state.cartState);
+  const {sessionId} = useSelector(state => state.authState);
+
+  useEffect(() => {
+    async function fetchData() {
+      await (
+        await GetRestaurantCategoriesAction(restaurant.id, setAllCategory)
+      )(dispatch);
+      await (
+        await GetRestaurantMenuAction(restaurant.id, setAllMenu)
+      )(dispatch);
+    }
+    restaurant?.id && fetchData();
+  }, [restaurant?.id, dispatch]);
+
+  useEffect(() => {
+    async function fetchData() {
+      category && category == -1 && (await (await GetRestaurantMenuAction(restaurant.id, setAllMenu))(dispatch));
+      category && category != -1 && (await (await GetRestaurantMenuByCategoryAction(category, setAllMenu))(dispatch));
+    }
+    fetchData();
+  }, [restaurant.id, category, dispatch]);
+
+  useEffect(() => {
+    setCategory(-1);
+  }, []);
 
   const tabs = [
     {
@@ -161,7 +166,7 @@ export default function RestaurantMenu() {
           paddingTop: 30,
           justifyContent: 'center',
         }}
-        source={{uri: 'https://via.placeholder.com/1125x660'}}
+        source={restaurant.image ? {uri: restaurant.image} : dummyData[0].offer} //'https://via.placeholder.com/1125x660'
         imageStyle={{
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20,
@@ -179,9 +184,7 @@ export default function RestaurantMenu() {
             borderBottomRightRadius: 20,
           }}
         />
-        <TouchableOpacity
-          style={{position: 'absolute', left: 16, top: 34}}
-          onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={{position: 'absolute', left: 16, top: 34}} onPress={() => navigation.goBack()}>
           <ArrowTwo />
         </TouchableOpacity>
         <View
@@ -207,7 +210,8 @@ export default function RestaurantMenu() {
                 color: COLORS.white,
                 textTransform: 'capitalize',
               }}>
-              {restaurant.type}
+              {/* {restaurant.type} */}
+              {'Food Restaurant'}
             </Text>
           </View>
           <TouchableOpacity onPress={() => setShowInfoModal(true)}>
@@ -221,12 +225,7 @@ export default function RestaurantMenu() {
   function renderRestaurantInfo() {
     return (
       <View style={{paddingHorizontal: 16, top: -25}}>
-        <Shadow
-          offset={[0, 0]}
-          distance={10}
-          startColor={'rgba(6, 38, 100, 0.05)'}
-          finalColor={'rgba(6, 38, 100, 0.0)'}
-          viewStyle={{width: '100%'}}>
+        <Shadow offset={[0, 0]} distance={10} startColor={'rgba(6, 38, 100, 0.05)'} finalColor={'rgba(6, 38, 100, 0.0)'} viewStyle={{width: '100%'}}>
           <View
             style={{
               width: '100%',
@@ -237,31 +236,35 @@ export default function RestaurantMenu() {
               alignItems: 'center',
               paddingHorizontal: 20,
             }}>
-            <TruckSvg />
-            <View
-              style={{
-                marginLeft: 8,
-                flex: 1,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  ...FONTS.Lato_400Regular,
-                  fontSize: 14,
-                  color: COLORS.black,
-                }}>
-                Free delivery from{' '}
-              </Text>
-              <Text
-                style={{
-                  ...FONTS.Lato_400Regular,
-                  fontSize: 14,
-                  color: COLORS.orange,
-                }}>
-                ${restaurant.freeDeliveryFrom}
-              </Text>
-            </View>
+            {restaurant.hasFreeDelivery && (
+              <>
+                <TruckSvg />
+                <View
+                  style={{
+                    marginLeft: 8,
+                    flex: 1,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      ...FONTS.Lato_400Regular,
+                      fontSize: 14,
+                      color: COLORS.black,
+                    }}>
+                    Free delivery from{' '}
+                  </Text>
+                  <Text
+                    style={{
+                      ...FONTS.Lato_400Regular,
+                      fontSize: 14,
+                      color: COLORS.orange,
+                    }}>
+                    ${restaurant.freeDeliveryAmount}
+                  </Text>
+                </View>
+              </>
+            )}
             <View
               style={{
                 flexDirection: 'row',
@@ -275,7 +278,8 @@ export default function RestaurantMenu() {
                   color: COLORS.black,
                   marginLeft: 5,
                 }}>
-                {restaurant.rating}
+                {/* {restaurant.rating} */}
+                {dummyData[0].rating}
               </Text>
             </View>
           </View>
@@ -287,35 +291,28 @@ export default function RestaurantMenu() {
   function renderCategories() {
     return (
       <View style={{top: -4}}>
-        <ScrollView
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{paddingLeft: 16}}>
-          {categories.map((item, index) => {
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingLeft: 16}}>
+          {allCategory.map((item, index) => {
             return (
               <TouchableOpacity
                 key={item.id}
                 style={{
-                  backgroundColor:
-                    category === item.category
-                      ? COLORS.carrot
-                      : COLORS.lightBlue,
+                  backgroundColor: category === item.id ? COLORS.carrot : COLORS.lightBlue,
                   marginRight: 8,
                   borderRadius: 50,
                 }}
-                onPress={() => setCategory(item.category)}>
+                onPress={() => setCategory(item.id)}>
                 <Text
                   style={{
                     paddingHorizontal: 20,
                     paddingVertical: 7,
-                    color:
-                      category === item.category ? COLORS.white : COLORS.gray,
+                    color: category === item.id ? COLORS.white : COLORS.gray,
                     ...FONTS.Lato_400Regular,
                     fontSize: 14,
                     lineHeight: 14 * 1.5,
                     textTransform: 'capitalize',
                   }}>
-                  {item.category}
+                  {item.name}
                 </Text>
               </TouchableOpacity>
             );
@@ -336,118 +333,119 @@ export default function RestaurantMenu() {
           justifyContent: 'space-between',
           top: -10,
         }}>
-        {dishes.map((item, index) => {
-          return (
-            <Shadow
-              key={item.id}
-              offset={[0, 0]}
-              distance={15}
-              startColor={'rgba(6, 38, 100, 0.03)'}
-              finalColor={'rgba(6, 38, 100, 0.0)'}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('DishDescription', {
-                    dish: item,
-                  })
-                }>
-                <View
-                  style={{
-                    width: (SIZES.width - 28) * 0.445,
-                    height: 196,
-                    backgroundColor: COLORS.white,
-                    marginBottom: 8,
-                    borderRadius: 20,
-                    padding: 4,
-                    paddingBottom: 15,
-                  }}>
-                  <Image
-                    source={item.photo_477x300}
-                    style={{
-                      width: '100%',
-                      height: 100,
-                      borderRadius: 20,
-                      marginBottom: 14,
-                    }}
-                  />
+        {allMenu.length > 0 &&
+          allMenu.map((item, index) => {
+            return (
+              <Shadow key={item.id} offset={[0, 0]} distance={15} startColor={'rgba(6, 38, 100, 0.03)'} finalColor={'rgba(6, 38, 100, 0.0)'}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('DishDescription', {
+                      dish: item,
+                    })
+                  }>
                   <View
                     style={{
-                      flex: 1,
-                      marginHorizontal: 12,
+                      width: (SIZES.width - 28) * 0.445,
+                      height: 196,
+                      backgroundColor: COLORS.white,
+                      marginBottom: 8,
+                      borderRadius: 20,
+                      padding: 4,
+                      paddingBottom: 15,
                     }}>
-                    <Text
+                    <Image
+                      source={{uri: item.image}} //photo_477x300
                       style={{
-                        ...FONTS.Lato_700Bold,
-                        fontSize: 14,
-                        lineHeight: 14 * 1.3,
-                        flex: 1,
-                        color: COLORS.black,
+                        width: '100%',
+                        height: 100,
+                        borderRadius: 20,
+                        marginBottom: 14,
                       }}
-                      numberOfLines={2}>
-                      {item.name}
-                    </Text>
-                    <Text
+                    />
+                    <View
                       style={{
-                        color: COLORS.gray,
-                        ...FONTS.Lato_400Regular,
-                        fontSize: 12,
+                        flex: 1,
+                        marginHorizontal: 12,
                       }}>
-                      ${item.price}
-                    </Text>
-                    {item.addedToCart ? (
-                      <TouchableOpacity
+                      <Text
                         style={{
-                          position: 'absolute',
-                          width: 36,
-                          height: 36,
-                          backgroundColor: COLORS.lightBlue,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          borderRadius: 20,
-                          right: -12,
-                          bottom: -10,
-                        }}>
-                        <PlusSvg />
-                      </TouchableOpacity>
-                    ) : (
-                      <View
+                          ...FONTS.Lato_700Bold,
+                          fontSize: 14,
+                          lineHeight: 14 * 1.3,
+                          flex: 1,
+                          color: COLORS.black,
+                        }}
+                        numberOfLines={2}>
+                        {item.name}
+                      </Text>
+                      <Text
                         style={{
-                          position: 'absolute',
-                          width: 36,
-                          height: 36,
-                          backgroundColor: '#80C0A5',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          borderRadius: 20,
-                          right: -12,
-                          bottom: -10,
+                          color: COLORS.gray,
+                          ...FONTS.Lato_400Regular,
+                          fontSize: 12,
                         }}>
-                        <Text
+                        ${item.price}
+                      </Text>
+                      {menuCart.some(mn => mn.menuId == item.id) == false ? (
+                        <TouchableOpacity
+                          onPress={() =>
+                            AddToCartAction({
+                              customerId: user.id,
+                              restaurantId: restaurant.id,
+                              menuId: item.id,
+                              quantity: 1,
+                              price: item.price,
+                              temporalId: sessionId,
+                            })(dispatch)
+                          }
                           style={{
-                            color: COLORS.white,
-                            ...FONTS.Lato_400Regular,
+                            position: 'absolute',
+                            width: 36,
+                            height: 36,
+                            backgroundColor: COLORS.lightBlue,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 20,
+                            right: -12,
+                            bottom: -10,
                           }}>
-                          3
-                        </Text>
-                      </View>
-                    )}
+                          <PlusSvg />
+                        </TouchableOpacity>
+                      ) : (
+                        <View
+                          style={{
+                            position: 'absolute',
+                            width: 36,
+                            height: 36,
+                            backgroundColor: '#80C0A5',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 20,
+                            right: -12,
+                            bottom: -10,
+                          }}>
+                          <Text
+                            style={{
+                              color: COLORS.white,
+                              ...FONTS.Lato_400Regular,
+                            }}>
+                            {menuCart.find(mn => mn.menuId == item.id)?.quantity ?? 0}
+                          </Text>
+                        </View>
+                      )}
+                    </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            </Shadow>
-          );
-        })}
+                </TouchableOpacity>
+              </Shadow>
+            );
+          })}
       </View>
     );
   }
 
   function renderInfoModal() {
     return (
-      <Modal
-        isVisible={showInfoModal}
-        onBackdropPress={() => setShowInfoModal(false)}
-        hideModalContentWhileAnimating={true}
-        backdropTransitionOutTiming={0}
-        style={{margin: 0}}>
+      <Modal isVisible={showInfoModal} onBackdropPress={() => setShowInfoModal(false)} hideModalContentWhileAnimating={true} backdropTransitionOutTiming={0} style={{margin: 0}}>
         <View
           style={{
             backgroundColor: COLORS.white,
@@ -530,7 +528,7 @@ export default function RestaurantMenu() {
                   lineHeight: 14 * 1.5,
                   color: COLORS.gray,
                 }}>
-                {restaurant.mail}
+                {restaurant.email}
               </Text>
             </View>
             <View
@@ -553,7 +551,9 @@ export default function RestaurantMenu() {
                     lineHeight: 14 * 1.5,
                     color: COLORS.black,
                   }}>
-                  {restaurant.time}{' '}
+                  {restaurant.openingTime}
+                  {' - '}
+                  {restaurant.closingTime}
                 </Text>
                 <Text
                   style={{
@@ -623,6 +623,9 @@ export default function RestaurantMenu() {
               <TouchableOpacity style={{marginHorizontal: 7.5}}>
                 <GoogleSvg />
               </TouchableOpacity>
+              <TouchableOpacity onPress={() => ClearCartAction()(dispatch)} style={{marginHorizontal: 7.5}}>
+                <GoogleSvg />
+              </TouchableOpacity>
             </View>
           </ScrollView>
           <TouchableOpacity
@@ -642,87 +645,26 @@ export default function RestaurantMenu() {
 
   return (
     <View style={{flex: 1, backgroundColor: COLORS.white}}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1, paddingBottom: 20}}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1, paddingBottom: 20}}>
         {renderHeader()}
         {renderRestaurantInfo()}
         {renderCategories()}
         {renderContent()}
       </ScrollView>
 
-      <Shadow
-        offset={[0, 0]}
-        distance={15}
-        startColor={'rgba(6, 38, 100, 0.06)'}
-        finalColor={'rgba(6, 38, 100, 0.0)'}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 22,
-            backgroundColor: COLORS.white,
-            paddingBottom: 4,
-            paddingTop: 2,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            width: SIZES.width,
-          }}>
-          {tabs.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() =>
-                  item.screen === 'CartIsEmpty' && dishes.length !== 0
-                    ? navigation.navigate('Order')
-                    : navigation.navigate('MainLayout', {
-                        screen: item.screen,
-                      })
-                }
-                activeOpacity={0.8}>
-                <View>
-                  <View
-                    style={{
-                      alignSelf: 'center',
-                      height: item.screen !== 'CartIsEmpty' ? 24 : 80,
-                      width: item.screen !== 'CartIsEmpty' ? 24 : 78,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    {item.icon}
-                  </View>
-                  {item.screen !== 'CartIsEmpty' && (
-                    <View style={{alignItems: 'center'}}>
-                      <View
-                        style={{
-                          width: 4,
-                          height: 4,
-                          borderRadius: 2,
-                          backgroundColor: COLORS.transparent,
-                          marginTop: 4,
-                        }}
-                      />
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          lineHeight: 16 * 1,
-                          fontSize: 12,
-                          fontFamily: 'Lato-Regular',
-                          color: COLORS.gray,
-                        }}>
-                        {item.screen}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </Shadow>
-
+      <BottomTabs />
       {renderInfoModal()}
     </View>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    shopCategories: state.shopState.shopCategories,
+    shopMenu: state.shopState.shopMenu,
+    menuCart: state.cartState.menuCart,
+    user: state.authState.user,
+  };
+}
+
+export default connect(mapStateToProps, null)(RestaurantMenu);

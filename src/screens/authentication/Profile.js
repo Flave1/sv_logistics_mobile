@@ -10,9 +10,6 @@ import {
 import React, {useEffect, useState} from 'react';
 import {Shadow} from 'react-native-shadow-2';
 import {useNavigation} from '@react-navigation/native';
-
-import {COLORS, FONTS} from '../constants';
-import {ProfileCategory} from '../components';
 import {
   CalendarSvg,
   CreditCardSvg,
@@ -20,12 +17,11 @@ import {
   GiftSvg,
   LogOutSvg,
   EditSvg,
-} from './svg';
-import {
-  LoginUserOutAction,
-  removeBoardedUser,
-} from '../context/actions/auth-actions';
+} from '../svg';
 import {connect, useDispatch} from 'react-redux';
+import { LoginUserOutAction, removeBoardedUser } from '../../context/actions';
+import { COLORS, FONTS } from '../../constants';
+import { ProfileCategory } from '../../components';
 
 function Profile(props) {
   const navigation = useNavigation();

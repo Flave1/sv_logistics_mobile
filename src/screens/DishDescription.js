@@ -1,114 +1,19 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-  StatusBar,
-  StyleSheet,
-} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, Image, StatusBar} from 'react-native';
+import React from 'react';
 import {useRoute, useNavigation} from '@react-navigation/native';
-import {Shadow} from 'react-native-shadow-2';
 
-import {COLORS, SIZES, dishes, FONTS} from '../constants';
-import {
-  HomeSvg,
-  ProfileSvg,
-  HeartSvg,
-  BagSvg,
-  PlaceSvg,
-  MinusSvg,
-  ArrowSvg,
-} from './svg';
+import {COLORS, SIZES, FONTS} from '../constants';
+import {MinusSvg, ArrowSvg, PlusSvg} from './svg';
+import {useDispatch, useSelector} from 'react-redux';
+import {AddToCartAction, RemoveFromCartAction} from '../context/actions';
+import BottomTabs from '../components/BottomTabs';
 
 export default function DishDescription() {
   navigation = useNavigation();
+  const dispatch = useDispatch();
 
-  const tabs = [
-    {
-      id: '1',
-      screen: 'Home',
-      icon: <HomeSvg color={COLORS.gray} />,
-    },
-    {
-      id: '2',
-      screen: 'Places',
-      icon: <PlaceSvg color={COLORS.gray} />,
-    },
-    {
-      id: '3',
-      screen: 'CartIsEmpty',
-      icon: (
-        <View
-          style={{
-            width: 76,
-            height: 76,
-            backgroundColor: COLORS.white,
-            top: -30,
-            borderRadius: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              width: 64,
-              height: 64,
-              backgroundColor: COLORS.orange,
-              borderRadius: 35,
-              justifyContent: 'center',
-              alignItems: 'center',
-              zIndex: 1,
-            }}>
-            <BagSvg />
-            <View
-              style={{
-                width: 22,
-                height: 22,
-                backgroundColor: COLORS.white,
-                borderRadius: 11,
-                justifyContent: 'center',
-                alignItems: 'center',
-                position: 'absolute',
-                right: 11,
-                bottom: 11,
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: COLORS.golden,
-                  ...FONTS.Lato_900Black,
-                  color: COLORS.orange,
-                }}>
-                5
-              </Text>
-            </View>
-          </View>
-          <Text
-            style={{
-              fontSize: 12,
-              fontFamily: 'Lato-Regular',
-              textAlign: 'center',
-              color: COLORS.orange,
-              position: 'absolute',
-              bottom: -15,
-            }}>
-            $48.93
-          </Text>
-        </View>
-      ),
-    },
-    {
-      id: '4',
-      screen: 'Favorite',
-      icon: <HeartSvg color={COLORS.gray} />,
-    },
-    {
-      id: '5',
-      screen: 'Profile',
-      icon: <ProfileSvg color={COLORS.gray} />,
-    },
-  ];
+  const {menuCart} = useSelector(state => state.cartState);
+  const {user, sessionId} = useSelector(state => state.authState);
 
   const route = useRoute();
   const {dish} = route.params;
@@ -121,7 +26,7 @@ export default function DishDescription() {
           flex: 1,
         }}>
         <Image
-          source={{uri: 'https://via.placeholder.com/375x624'}}
+          source={{uri: dish.image}} //'https://via.placeholder.com/375x624'
           style={{width: '100%', height: '100%'}}
         />
       </View>
@@ -181,7 +86,7 @@ export default function DishDescription() {
                 fontSize: 14,
                 color: COLORS.gray,
               }}>
-              {dish.weight}g
+              {dish.weight ? dish.weight + 'g' : null}
             </Text>
           </View>
           <View
@@ -190,6 +95,9 @@ export default function DishDescription() {
               alignItems: 'center',
             }}>
             <TouchableOpacity
+              onPress={() => {
+                RemoveFromCartAction(dish.id, user.id, sessionId)(dispatch);
+              }}
               style={{
                 width: 36,
                 height: 36,
@@ -200,8 +108,18 @@ export default function DishDescription() {
               }}>
               <MinusSvg />
             </TouchableOpacity>
-            <Text style={{marginHorizontal: 10}}>1</Text>
+            <Text style={{marginHorizontal: 10}}>{menuCart.find(mn => mn.menuId == dish.id)?.quantity ?? 0}</Text>
             <TouchableOpacity
+              onPress={() => {
+                AddToCartAction({
+                  customerId: user.id,
+                  restaurantId: dish.id,
+                  menuId: dish.id,
+                  quantity: 1,
+                  price: dish.price,
+                  temporalId: sessionId,
+                })(dispatch);
+              }}
               style={{
                 width: 36,
                 height: 36,
@@ -210,86 +128,11 @@ export default function DishDescription() {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <MinusSvg />
+              <PlusSvg />
             </TouchableOpacity>
           </View>
         </View>
       </View>
-    );
-  }
-
-  function renderTabs() {
-    return (
-      <Shadow
-        offset={[0, 0]}
-        distance={15}
-        startColor={'rgba(6, 38, 100, 0.06)'}
-        finalColor={'rgba(6, 38, 100, 0.0)'}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 22,
-            backgroundColor: COLORS.white,
-            paddingBottom: 4,
-            paddingTop: 2,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            width: SIZES.width,
-          }}>
-          {tabs.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() =>
-                  item.screen === 'CartIsEmpty' && dishes.length !== 0
-                    ? navigation.navigate('Order')
-                    : navigation.navigate('MainLayout', {
-                        screen: item.screen,
-                      })
-                }
-                activeOpacity={0.8}>
-                <View>
-                  <View
-                    style={{
-                      alignSelf: 'center',
-                      height: item.screen !== 'CartIsEmpty' ? 24 : 80,
-                      width: item.screen !== 'CartIsEmpty' ? 24 : 78,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    {item.icon}
-                  </View>
-                  {item.screen !== 'CartIsEmpty' && (
-                    <View style={{alignItems: 'center'}}>
-                      <View
-                        style={{
-                          width: 4,
-                          height: 4,
-                          borderRadius: 2,
-                          backgroundColor: COLORS.transparent,
-                          marginTop: 4,
-                        }}
-                      />
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          lineHeight: 16 * 1,
-                          fontSize: 12,
-                          fontFamily: 'Lato-Regular',
-                          color: COLORS.gray,
-                        }}>
-                        {item.screen}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </Shadow>
     );
   }
 
@@ -308,9 +151,9 @@ export default function DishDescription() {
           marginTop: 24,
         }}
         onPress={() => navigation.goBack()}>
-        <ArrowSvg />
+        <ArrowSvg width={30} />
       </TouchableOpacity>
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           justifyContent: 'center',
@@ -331,10 +174,10 @@ export default function DishDescription() {
           }}>
           {dish.name}
         </Text>
-      </View>
+      </View> */}
       {renderSlider()}
       {renderDishInfo()}
-      {renderTabs()}
+      <BottomTabs />
     </View>
   );
 }

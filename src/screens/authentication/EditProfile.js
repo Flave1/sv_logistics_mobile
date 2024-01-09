@@ -4,9 +4,9 @@ import { Shadow } from "react-native-shadow-2";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { useNavigation } from "@react-navigation/native";
 
-import { AndroidSafeArea, COLORS } from "../constants";
-import { Header, InputField, Button } from "../components";
-import { CheckSvg } from "./svg";
+import { AndroidSafeArea, COLORS } from "../../constants";
+import { Header, InputField, Button } from "../../components";
+import { CheckSvg } from "../svg";
 
 export default function EditProfile() {
     const navigation = useNavigation();

@@ -1,15 +1,5 @@
-import {
-  View,
-  Text,
-  ImageBackground,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  StatusBar,
-} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, ImageBackground, TextInput, ScrollView, TouchableOpacity, FlatList, Image, StatusBar} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Shadow} from 'react-native-shadow-2';
 
@@ -29,6 +19,8 @@ import {
   DoughnutSvg,
   FreeFromSvg,
 } from './svg';
+import {GetPopularShopsAction} from '../context/actions';
+import {connect, useDispatch} from 'react-redux';
 
 const categories = [
   {
@@ -58,15 +50,25 @@ const categories = [
   },
 ];
 
-export default function Home() {
+function Home(props: any) {
   const navigation = useNavigation();
-
   const [category, setCategory] = useState('Burger');
+  const dispatch = useDispatch();
+  useEffect(() => {
+    async function getPopularShops() {
+      await (
+        await GetPopularShopsAction()
+      )(dispatch);
+    }
+    getPopularShops();
+  }, []);
 
   function renderHeader() {
     return (
       <ImageBackground
-        source={{uri: 'https://cdn.pixabay.com/photo/2017/11/12/19/17/vegetables-landscape-2943500_1280.jpg'}}//https://via.placeholder.com/1125x540
+        source={{
+          uri: 'https://cdn.pixabay.com/photo/2017/11/12/19/17/vegetables-landscape-2943500_1280.jpg',
+        }} //https://via.placeholder.com/1125x540
         style={{
           height: 180,
           paddingHorizontal: 16,
@@ -113,11 +115,7 @@ export default function Home() {
               style={{
                 marginRight: 10,
               }}>
-              <Shadow
-                offset={[0, 0]}
-                distance={10}
-                startColor={'rgba(6, 38, 100, 0.05)'}
-                finalColor={'rgba(6, 38, 100, 0.0)'}>
+              <Shadow offset={[0, 0]} distance={10} startColor={'rgba(6, 38, 100, 0.05)'} finalColor={'rgba(6, 38, 100, 0.0)'}>
                 <TouchableOpacity
                   style={{
                     width: 73,
@@ -143,8 +141,7 @@ export default function Home() {
                 style={{
                   textAlign: 'center',
                   marginTop: 8,
-                  color:
-                    category === item.category ? COLORS.orange : COLORS.gray,
+                  color: category === item.category ? COLORS.orange : COLORS.gray,
                   ...FONTS.Lato_400Regular,
                   fontSize: 14,
                   lineHeight: 14 * 1.5,
@@ -170,10 +167,7 @@ export default function Home() {
             paddingHorizontal: 16,
             marginBottom: 8,
           }}>
-          <Text
-            style={{...FONTS.H2, lineHeight: 32 * 1.2, color: COLORS.black}}>
-            Hot offers
-          </Text>
+          <Text style={{...FONTS.H2, lineHeight: 32 * 1.2, color: COLORS.black}}>Hot offers</Text>
           <TouchableOpacity onPress={() => navigation.navigate('AllOffers')}>
             <ViewAllSvg />
           </TouchableOpacity>
@@ -206,140 +200,150 @@ export default function Home() {
   function renderPopularRestaurants() {
     return (
       <View style={{paddingHorizontal: 16}}>
-        <Text style={{...FONTS.H2, marginBottom: 8, color: COLORS.black}}>
-          Popular Restaurants
-        </Text>
-        {dummyData.map((item, index) => {
-          return (
-            <View key={index}>
-              <Shadow
-                offset={[0, 0]}
-                distance={10}
-                startColor={'rgba(6, 38, 100, 0.04)'}
-                finalColor={'rgba(6, 38, 100, 0.0)'}>
-                <TouchableOpacity
-                  style={{
-                    width: '100%',
-                    height: 140,
-                    backgroundColor: COLORS.white,
-                    borderRadius: 20,
-                    marginBottom: 8,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                  onPress={() =>
-                    navigation.navigate('RestaurantMenu', {
-                      restaurant: item,
-                    })
-                  }>
-                  <ImageBackground
-                    source={item.photo_426x420}
-                    style={{width: 142, height: '100%'}}
-                    imageStyle={{
-                      borderTopLeftRadius: 20,
-                      borderBottomLeftRadius: 20,
-                    }}>
-                    <View
-                      style={{
-                        height: 26,
-                        backgroundColor: COLORS.carrot,
-                        alignSelf: 'flex-start',
-                        paddingHorizontal: 13,
-                        borderRadius: 20,
-                        right: -10,
-                        top: 10,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}>
-                      <StarSvg />
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          fontFamily: 'Lato-Regular',
-                          color: COLORS.white,
-                          marginLeft: 6,
-                        }}>
-                        {item.rating}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        position: 'absolute',
-                        right: 0,
-                      }}>
-                      <ElementSvg />
-                    </View>
-                  </ImageBackground>
-                  <View
+        <Text style={{...FONTS.H2, marginBottom: 8, color: COLORS.black}}>Popular Restaurants</Text>
+        {props.popularShops &&
+          props.popularShops.map((item: any, index: number) => {
+            return (
+              <View key={index}>
+                <Shadow offset={[0, 0]} distance={10} startColor={'rgba(6, 38, 100, 0.04)'} finalColor={'rgba(6, 38, 100, 0.0)'}>
+                  <TouchableOpacity
                     style={{
-                      marginLeft: 20,
-                      marginVertical: 20,
-                      flex: 1,
+                      width: '100%',
+                      height: 140,
+                      backgroundColor: COLORS.white,
+                      borderRadius: 20,
+                      marginBottom: 8,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                    onPress={() => {
+                      navigation.navigate('RestaurantMenu', {
+                        restaurant: {
+                          id: item.restaurant.id,
+                          name: item.restaurant.name,
+                          image: item.image,
+                          email: item.restaurant.email,
+                          description: item.restaurant.description,
+                          phoneNumber: item.restaurant.phoneNumber,
+                          address: item.restaurant.address,
+                          openingTime: item.restaurant.openingTime,
+                          closingTime: item.restaurant.closingTime,
+                          freeDeliveryAmount: item.restaurant.freeDeliveryAmount,
+                          hasFreeDelivery: item.restaurant.hasFreeDelivery,
+                          hasDelivery: item.restaurant.hasDelivery,
+                          days: item.days,
+                        },
+                      });
                     }}>
-                    <Text
-                      style={{
-                        ...FONTS.H4,
-                        textTransform: 'capitalize',
-                        lineHeight: 24 * 1.2,
-                        color: COLORS.black,
-                      }}
-                      numberOfLines={1}>
-                      {item.name}
-                    </Text>
-                    <Text
-                      style={{
-                        color: COLORS.gray,
-                        fontFamily: 'Lato-Regular',
-                        fontSize: 14,
-                        marginBottom: 8,
+                    <ImageBackground
+                      source={item.image ? {uri: item.image} : dummyData[0].photo_426x420} //photo_426x420
+                      style={{width: 142, height: '100%'}}
+                      imageStyle={{
+                        borderTopLeftRadius: 20,
+                        borderBottomLeftRadius: 20,
                       }}>
-                      {item.type}
-                    </Text>
+                      <View
+                        style={{
+                          height: 26,
+                          backgroundColor: COLORS.carrot,
+                          alignSelf: 'flex-start',
+                          paddingHorizontal: 13,
+                          borderRadius: 20,
+                          right: -10,
+                          top: 10,
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                        }}>
+                        <StarSvg />
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontFamily: 'Lato-Regular',
+                            color: COLORS.white,
+                            marginLeft: 6,
+                          }}>
+                          {dummyData[0].rating}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          position: 'absolute',
+                          right: 0,
+                        }}>
+                        <ElementSvg />
+                      </View>
+                    </ImageBackground>
                     <View
                       style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
+                        marginLeft: 20,
+                        marginVertical: 20,
+
+                        flex: 1,
                       }}>
-                      <SmallMapPin />
                       <Text
                         style={{
-                          marginLeft: 8,
+                          ...FONTS.H4,
+                          textTransform: 'capitalize',
+                          lineHeight: 24 * 1.2,
+                          color: COLORS.black,
+                        }}
+                        numberOfLines={1}>
+                        {item.name}
+                      </Text>
+                      <Text
+                        style={{
+                          color: COLORS.gray,
                           fontFamily: 'Lato-Regular',
                           fontSize: 14,
-                          color: COLORS.black,
-                          marginBottom: 2,
+                          marginBottom: 8,
                         }}>
-                        {item.distance}
+                        {item.restaurant.name}
                       </Text>
-                    </View>
-                    {item.freeDelivery && <FreeDeliverySvg />}
-                    {item.freeDelivery === false && item.freeDeliveryFrom && (
                       <View
                         style={{
                           flexDirection: 'row',
                           alignItems: 'center',
                         }}>
-                        <FreeFromSvg />
+                        <SmallMapPin />
                         <Text
                           style={{
-                            ...FONTS.Lato_400Regular,
+                            marginLeft: 8,
+                            fontFamily: 'Lato-Regular',
                             fontSize: 14,
                             color: COLORS.black,
+                            marginBottom: 2,
                           }}>
-                          {' '}
-                          ${item.freeDeliveryFrom}
+                          {item.restaurant.address}
                         </Text>
                       </View>
-                    )}
-                  </View>
-                  <View style={{paddingRight: 16}}>
-                    <ProfileArrowSvg />
-                  </View>
-                </TouchableOpacity>
-              </Shadow>
-            </View>
-          );
-        })}
+                      {item.restaurant.hasFreeDelivery && <FreeDeliverySvg />}
+                      {item.restaurant.hasFreeDelivery === false && item.restaurant.freeDeliveryAmount && (
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                          }}>
+                          <FreeFromSvg />
+                          <Text
+                            style={{
+                              ...FONTS.Lato_400Regular,
+                              fontSize: 14,
+                              color: COLORS.black,
+                            }}>
+                            {' '}
+                            ${item.restaurant.freeDeliveryAmount}
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                    <View style={{paddingRight: 16}}>
+                      <ProfileArrowSvg />
+                    </View>
+                  </TouchableOpacity>
+                </Shadow>
+              </View>
+            );
+          })}
       </View>
     );
   }
@@ -347,9 +351,7 @@ export default function Home() {
   return (
     <View style={{flex: 1}}>
       <StatusBar barStyle="light-content" />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1, paddingBottom: 20}}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1, paddingBottom: 20}}>
         {renderHeader()}
         {renderCategories()}
         {renderHotOffers()}
@@ -358,3 +360,10 @@ export default function Home() {
     </View>
   );
 }
+
+function mapStateToProps(state: any) {
+  return {
+    popularShops: state.shopState.popularShops,
+  };
+}
+export default connect(mapStateToProps)(Home);

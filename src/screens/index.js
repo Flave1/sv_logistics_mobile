@@ -1,12 +1,12 @@
 import OnBoarding from "./onboarding/OnBoarding";
 import SignIn from "./authentication/SignIn";
 import SignUp from "./authentication/SignUp";
-import ResetPassword from "./ResetPassword";
-import PasswordHasBeenReset from "./PasswordHasBeenReset";
-import ForgotPassword from "./ForgotPassword";
+import ResetPassword from "./authentication/ResetPassword";
+import PasswordHasBeenReset from "./authentication/PasswordHasBeenReset";
+import ForgotPassword from "./authentication/ForgotPassword";
 import VerifyPhoneNumber from "./authentication/VerifyPhoneNumber";
 import ConfirmationCode from "./ConfirmationCode";
-import MainLayout from "./MainLayout";
+import MainLayout from "./shops/MainLayout";
 import RestaurantMenu from "./RestaurantMenu";
 import Places from "./Places";
 import AllOffers from "./AllOffers";
@@ -21,7 +21,7 @@ import CheckoutFailed from "./CheckoutFailed";
 import Checkout from "./Checkout";
 import Filter from "./Filter";
 import Order from "./Order";
-import EditProfile from "./EditProfile";
+import EditProfile from "./authentication/EditProfile";
 import DishDescription from "./DishDescription";
 
 export {

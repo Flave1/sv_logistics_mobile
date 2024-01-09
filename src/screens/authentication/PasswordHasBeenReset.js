@@ -2,8 +2,8 @@ import { View, Text, Image, ScrollView } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-import { SIZES, COLORS, FONTS } from "../constants";
-import { Button } from "../components";
+import { SIZES, COLORS, FONTS } from "../../constants";
+import { Button } from "../../components";
 
 export default function PasswordHasBeenReset() {
     const navigation = useNavigation();
@@ -19,7 +19,7 @@ export default function PasswordHasBeenReset() {
                 }}
             >
                 <Image
-                    source={require("../assets/images/key.png")}
+                    source={require("../../assets/images/key.png")}
                     style={{
                         width: 297,
                         height: 297,
@@ -51,8 +51,7 @@ export default function PasswordHasBeenReset() {
                 </Text>
                 <Button
                     title="done"
-                    onPress={() => navigation.navigate("SignIn")}
-                />
+                    onPress={() => navigation.navigate("SignIn")} containerStyle={undefined} textStyle={undefined}                />
             </ScrollView>
         );
     }

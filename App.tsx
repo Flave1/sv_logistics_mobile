@@ -12,10 +12,8 @@ const App = (props: any) => {
     setScreen(appScreen);
   }, []);
 
-  console.log('props.onboard', props.onboard);
-
   useEffect(() => {
-    if (props.onboard == "ONBOARDED") setScreen(appScreen);
+    if (props.onboard == 'ONBOARDED') setScreen(appScreen);
     else setScreen(onboardScreens);
   }, [props.onboard]);
   return screen;
@@ -25,6 +23,7 @@ const mapStateToProps = (state: any) => {
   return {
     isAuthenticated: isAuthenticated(state.authState),
     onboard: state.authState.onboard,
+    menuCart: state.cartState.menuCart,
   };
 };
 export default connect(mapStateToProps)(App);

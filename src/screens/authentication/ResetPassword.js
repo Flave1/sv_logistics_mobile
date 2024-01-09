@@ -3,9 +3,9 @@ import React from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { useNavigation } from "@react-navigation/native";
 
-import { AndroidSafeArea, COLORS, FONTS } from "../constants";
-import { Button, InputField, Header } from "../components";
-import { EyeOffSvg } from "./svg";
+import { AndroidSafeArea, COLORS, FONTS } from "../../constants";
+import { Button, InputField, Header } from "../../components";
+import { EyeOffSvg } from "../svg";
 
 export default function ResetPassword() {
     const navigation = useNavigation();
