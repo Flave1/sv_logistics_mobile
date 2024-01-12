@@ -19,7 +19,7 @@ import {
   EditSvg,
 } from '../svg';
 import {connect, useDispatch} from 'react-redux';
-import { LoginUserOutAction, removeBoardedUser } from '../../context/actions';
+import { LogUserOutAction, removeBoardedUser } from '../../context/actions';
 import { COLORS, FONTS } from '../../constants';
 import { ProfileCategory } from '../../components';
 
@@ -27,12 +27,12 @@ function Profile(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!props.user) {
-      navigation.navigate('SignIn');
-      return;
-    }
-  }, [props.user]);
+  // useEffect(() => {
+  //   // if (!props.user) {
+  //   //   navigation.navigate('SignIn');
+  //   //   return;
+  //   // }
+  // }, [props.user]);
 
   function renderHeader() {
     return (
@@ -165,11 +165,8 @@ function Profile(props) {
             title="Sign Out"
             icon={<LogOutSvg />}
             onPress={async () => {
-              await LoginUserOutAction()(dispatch);
-              // navigation.navigate({
-              //   name: 'MainLayout',
-              //   params: {screenToDisplay: 'Home'},
-              // });
+              await LogUserOutAction()(dispatch);
+              navigation.navigate('SignIn')
             }}
           />
         ) : (

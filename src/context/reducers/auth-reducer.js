@@ -1,10 +1,11 @@
-import {GenerateUUID} from '../../utility';
-import {LOGIN_ACTION, LOGIN_OUT_ACTION, OFFBOARD_ACTION, ONBOARD_ACTION} from '../actions/auth-actions';
+import {GenerateUUID} from '../../../vendor/utility';
+import {LOGIN_ACTION, LOGIN_OUT_ACTION, OFFBOARD_ACTION, ONBOARD_ACTION, SET_AUTHENTICATED} from '../actions/auth-actions';
 
 const initialState = {
   user: null,
   onboard: 'NOT_BOARDED',
   sessionId: '',
+  isAuthenticated: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -32,6 +33,12 @@ export const authReducer = (state = initialState, action) => {
     return {
       ...state,
       user: null,
+    };
+  }
+  if (action.type == SET_AUTHENTICATED) {
+    return {
+      ...state,
+      isAuthenticated: action.payload,
     };
   }
   return state;

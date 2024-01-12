@@ -6,9 +6,9 @@ export const GET_SHOP_CATEGORIES = '[GET_SHOP_CATEGORIES] Get all restaurants ca
 export const GET_SHOP_MENU = '[GET_SHOP_MENU] Get all restaurants menu';
 
 export const GetPopularShopsAction = async () => {
-  return (dispatch: any) =>
+  return dispatch =>
     getPopularRestaurants()
-      .then((response: any) => {
+      .then(response => {
         dispatch({
           type: GET_POPULAR_SHOPS,
           payload: response.data,
@@ -20,9 +20,9 @@ export const GetPopularShopsAction = async () => {
       });
 };
 export const GetAllShopsAction = async () => {
-  return (dispatch: any) =>
+  return dispatch =>
     getAllRestaurants()
-      .then((response: any) => {
+      .then(response => {
         dispatch({
           type: GET_ALL_SHOPS,
           payload: response.data,
@@ -34,12 +34,12 @@ export const GetAllShopsAction = async () => {
       });
 };
 
-export const GetRestaurantCategoriesAction = async (restaurantId: number, setAllCategory: any) => {
-  return (dispatch: any) =>
+export const GetRestaurantCategoriesAction = async (restaurantId: number, setAllCategory) => {
+  return dispatch =>
     getRestaurantCategories(restaurantId)
-      .then((response: any) => {
+      .then(response => {
         const categories = [{id: -1, name: 'All Dishies'}, ...response.data];
-        setAllCategory(categories)
+        setAllCategory(categories);
         dispatch({
           type: GET_SHOP_CATEGORIES,
           payload: categories,
@@ -51,10 +51,10 @@ export const GetRestaurantCategoriesAction = async (restaurantId: number, setAll
       });
 };
 
-export const GetRestaurantMenuAction = async (restaurantId: number, setAllMenu: any) => {
-  return async (dispatch: any) =>
+export const GetRestaurantMenuAction = async (restaurantId: number, setAllMenu) => {
+  return async dispatch =>
     getRestaurantMenu(restaurantId)
-      .then((response: any) => {
+      .then(response => {
         setAllMenu(response.data);
         dispatch({
           type: GET_SHOP_MENU,
@@ -67,10 +67,10 @@ export const GetRestaurantMenuAction = async (restaurantId: number, setAllMenu: 
       });
 };
 
-export const GetRestaurantMenuByCategoryAction = async (categoryId: number, setAllMenu: any) => {
-  return (dispatch: any) =>
+export const GetRestaurantMenuByCategoryAction = async (categoryId: number, setAllMenu) => {
+  return dispatch =>
     getRestaurantByCategoryMenu(categoryId)
-      .then((response: any) => {
+      .then(response => {
         setAllMenu(response.data);
         dispatch({
           type: GET_SHOP_MENU,

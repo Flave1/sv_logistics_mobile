@@ -13,7 +13,7 @@ import AllOffers from "./AllOffers";
 import OrderHistory from "./OrderHistory";
 import PaymentMethod from "./PaymentMethod";
 import AddNewCard from "./AddNewCard";
-import MyAddress from "./MyAddress";
+import MyAddress from "./authentication/MyAddress";
 import MyPromocodes from "./MyPromocodes";
 import CheckoutSuccess from "./CheckoutSuccess";
 import OrderTracking from "./OrderTracking";

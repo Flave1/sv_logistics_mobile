@@ -13,11 +13,11 @@ import {COLORS, SIZES, dishes, FONTS} from '../../constants';
 import Profile from '../authentication/Profile';
 import {useSelector} from 'react-redux';
 
-export default function MainLayout(props: any) {
+export default function MainLayout(props) {
   const navigation = useNavigation();
 
   const [selectedTab, setSelectedTab] = useState('Home');
-  const {menuCart} = useSelector((state: any) => state.cartState);
+  const {menuCart} = useSelector((state) => state.cartState);
 
   const tabs = [
     {
@@ -87,7 +87,7 @@ export default function MainLayout(props: any) {
               position: 'absolute',
               bottom: -15,
             }}>
-            ${menuCart.reduce((sum: any, menu: any) => sum + menu.price * menu.quantity, 0)}
+            ${menuCart.reduce((sum, menu) => sum + menu.price * menu.quantity, 0)}
           </Text>
         </View>
       ),
@@ -174,3 +174,4 @@ export default function MainLayout(props: any) {
     </View>
   );
 }
+

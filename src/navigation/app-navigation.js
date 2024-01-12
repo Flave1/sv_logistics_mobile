@@ -28,10 +28,14 @@ import {
   EditProfile,
   DishDescription,
 } from '../screens';
+import CreateUpdateAdddress from '../screens/authentication/CreateUpdateAddress';
+import {connect, useSelector} from 'react-redux';
+import {isAuthenticated} from '../context/service';
 
 const Stack = createStackNavigator();
 
-export default function AuthNavigation() {
+function AuthNavigation({isAuthenticated}) {
+  const {menuCart} = useSelector(state => state.authState);
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -57,7 +61,8 @@ export default function AuthNavigation() {
         <Stack.Screen name="PaymentMethod" component={PaymentMethod} />
         <Stack.Screen name="AddNewCard" component={AddNewCard} />
         <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="MyAddress" component={MyAddress} />
+        <Stack.Screen name="MyAddress" initialParams={{isAuthenticated}} component={MyAddress} />
+        <Stack.Screen name="CreateUpdateAdddress" initialParams={{isAuthenticated}} component={CreateUpdateAdddress} />
         <Stack.Screen name="MyPromocodes" component={MyPromocodes} />
         <Stack.Screen name="RestaurantMenu" component={RestaurantMenu} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -71,3 +76,10 @@ export default function AuthNavigation() {
     </NavigationContainer>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: isAuthenticated(state.authState),
+  };
+};
+export default connect(mapStateToProps)(AuthNavigation);

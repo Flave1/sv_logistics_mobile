@@ -6,13 +6,13 @@ export async function getPopularRestaurants() {
 export async function getAllRestaurants() {
   return await axiosInstance.get(`/customer/restaurants`);
 }
-export async function getRestaurantCategories(restaurantId: number) {
+export async function getRestaurantCategories(restaurantId) {
   return await axiosInstance.get(`/customer/restaurant-categories/${restaurantId}`);
 }
-export async function getRestaurantMenu(restaurantId: number) {
+export async function getRestaurantMenu(restaurantId) {
   return await axiosInstance.get(`/customer/all-restaurant-menu/${restaurantId}`);
 }
-export async function getRestaurantByCategoryMenu(categoryId: number) {
+export async function getRestaurantByCategoryMenu(categoryId) {
   return await axiosInstance.get(`/customer/restaurant-menu/category/${categoryId}`);
 }
 

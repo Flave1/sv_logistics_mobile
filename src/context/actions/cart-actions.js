@@ -5,13 +5,10 @@ export const UPDATE_CART_LIST = '[UPDATE_CART_LIST] Update cart list';
 export const REMOVE_FROM_CART = '[REMOVE_FROM_CART] Remove from cart';
 export const CLEAR_CART = '[CLEAR_CART] Clear cart';
 
-export const GetCartListAction = ({customerId, temporalId}: any) => {
-  console.log('customerId, temporalId', customerId, temporalId);
-  return (dispatch: any) =>
+export const GetCartListAction = ({customerId, temporalId}) => {
+  return dispatch =>
     getCartList(customerId, temporalId)
       .then(response => {
-        console.log('response.data', response.data);
-        
         dispatch({
           type: UPDATE_CART_LIST,
           payload: response.data,
@@ -23,7 +20,7 @@ export const GetCartListAction = ({customerId, temporalId}: any) => {
       });
 };
 
-export const AddToCartAction = ({customerId, restaurantId, menuId, quantity, price, temporalId}: any) => {
+export const AddToCartAction = ({customerId, restaurantId, menuId, quantity, price, temporalId}) => {
   const menuOrder = {
     customerId,
     restaurantId,
@@ -33,15 +30,13 @@ export const AddToCartAction = ({customerId, restaurantId, menuId, quantity, pri
     temporalId,
   };
 
-  return (dispatch: any) => {
+  return dispatch => {
     dispatch({
       type: ADD_TO_CART,
       payload: menuOrder,
     });
     createUpdateMenuOrder(menuOrder)
       .then(response => {
-        console.log('response.data', response.data);
-        
         return response.data;
       })
       .catch(error => {
@@ -51,7 +46,7 @@ export const AddToCartAction = ({customerId, restaurantId, menuId, quantity, pri
   };
 };
 
-export const RemoveFromCartAction = (menuId: number, customerId: number, temporalId: string) => {
+export const RemoveFromCartAction = (menuId, customerId, temporalId) => {
   const menuOrder = {
     menuId,
     customerId,
@@ -71,13 +66,13 @@ export const RemoveFromCartAction = (menuId: number, customerId: number, tempora
       });
 };
 
-export const RemoveFromCartOnServerErrorAction = (menuId: number, customerId: number, temporalId: string) => {
+export const RemoveFromCartOnServerErrorAction = (menuId, customerId, temporalId) => {
   const menuOrder = {
     menuId,
     customerId,
     temporalId,
   };
-  return (dispatch: any) =>
+  return dispatch =>
     dispatch({
       type: REMOVE_FROM_CART,
       payload: menuOrder,
@@ -85,7 +80,7 @@ export const RemoveFromCartOnServerErrorAction = (menuId: number, customerId: nu
 };
 
 export const ClearCartAction = () => {
-  return (dispatch: any) => {
+  return dispatch => {
     dispatch({
       type: CLEAR_CART,
     });

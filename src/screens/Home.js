@@ -4,21 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Shadow} from 'react-native-shadow-2';
 
 import {COLORS, dummyData, FONTS} from '../constants';
-import {
-  MicrophoneSvg,
-  ElementSvg,
-  ProfileArrowSvg,
-  SmallMapPin,
-  FreeDeliverySvg,
-  StarSvg,
-  ViewAllSvg,
-  BurgerSvg,
-  GuacamoleSvg,
-  PizzaSvg,
-  SushiSvg,
-  DoughnutSvg,
-  FreeFromSvg,
-} from './svg';
+import {MicrophoneSvg, ElementSvg, ProfileArrowSvg, SmallMapPin, FreeDeliverySvg, StarSvg, ViewAllSvg, BurgerSvg, GuacamoleSvg, PizzaSvg, SushiSvg, DoughnutSvg, FreeFromSvg} from './svg';
 import {GetPopularShopsAction} from '../context/actions';
 import {connect, useDispatch} from 'react-redux';
 
@@ -50,17 +36,17 @@ const categories = [
   },
 ];
 
-function Home(props: any) {
+function Home(props) {
   const navigation = useNavigation();
   const [category, setCategory] = useState('Burger');
   const dispatch = useDispatch();
   useEffect(() => {
-    async function getPopularShops() {
+    async function fetchData() {
       await (
         await GetPopularShopsAction()
       )(dispatch);
     }
-    getPopularShops();
+    fetchData();
   }, []);
 
   function renderHeader() {
@@ -202,7 +188,7 @@ function Home(props: any) {
       <View style={{paddingHorizontal: 16}}>
         <Text style={{...FONTS.H2, marginBottom: 8, color: COLORS.black}}>Popular Restaurants</Text>
         {props.popularShops &&
-          props.popularShops.map((item: any, index: number) => {
+          props.popularShops.map((item, index) => {
             return (
               <View key={index}>
                 <Shadow offset={[0, 0]} distance={10} startColor={'rgba(6, 38, 100, 0.04)'} finalColor={'rgba(6, 38, 100, 0.0)'}>
@@ -361,7 +347,7 @@ function Home(props: any) {
   );
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state) {
   return {
     popularShops: state.shopState.popularShops,
   };

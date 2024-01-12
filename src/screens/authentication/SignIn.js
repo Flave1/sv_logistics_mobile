@@ -12,12 +12,12 @@ import {useFormik} from 'formik';
 import {LoginAction} from '../../context/actions/auth-actions';
 
 function SignIn(props) {
-  useEffect(() => {
-    if (props.user) {
-      navigation.navigate('MainLayout');
-      return;
-    }
-  }, [props.user]);
+  // useEffect(() => {
+  //   if (props.user) {
+  //     navigation.navigate('MainLayout');
+  //     return;
+  //   }
+  // }, [props.user]);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -48,7 +48,7 @@ function SignIn(props) {
     enableReinitialize: true,
     validationSchema: validation,
     onSubmit: async values => {
-      await LoginAction(values.email, values.password)(dispatch);
+      await LoginAction(values.email, values.password, navigation)(dispatch);
     },
   });
 

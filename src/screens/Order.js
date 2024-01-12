@@ -31,7 +31,6 @@ export default function Order() {
 
   useEffect(() => {
     async function fetchData() {
-      console.log('response.data', user.id, sessionId );
        await GetCartListAction({customerId: user.id, temporalId: sessionId})(dispatch);
     }
     user.id && sessionId && fetchData();

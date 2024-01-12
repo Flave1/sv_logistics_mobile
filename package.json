@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo-google-fonts/allura": "^0.2.3",
     "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-native-community/geolocation": "^3.1.0",
     "@react-native-picker/picker": "^2.6.1",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
@@ -21,8 +22,9 @@
     "react-native": "0.73.0",
     "react-native-collapsible": "^1.6.1",
     "react-native-gesture-handler": "^2.14.0",
+    "react-native-google-places-autocomplete": "^2.5.6",
     "react-native-keyboard-aware-scrollview": "^2.1.0",
-    "react-native-maps": "^1.8.3",
+    "react-native-maps": "^1.9.1",
     "react-native-maps-directions": "^1.9.0",
     "react-native-modal": "^13.0.1",
     "react-native-phone-input": "^1.3.7",

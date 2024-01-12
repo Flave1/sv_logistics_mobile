@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import AppNavigation from './src/navigation/app-navigation';
 import {connect} from 'react-redux';
-import {hasOnboarded, isAuthenticated} from './src/context/service';
 import OnboardNavigation from './src/navigation/onboard-navigation';
 
 const App = (props: any) => {
@@ -21,9 +20,7 @@ const App = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    isAuthenticated: isAuthenticated(state.authState),
     onboard: state.authState.onboard,
-    menuCart: state.cartState.menuCart,
   };
 };
 export default connect(mapStateToProps)(App);

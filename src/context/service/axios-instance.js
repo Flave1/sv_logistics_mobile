@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
     // timeoutErrorMessage:'Request Timed out'
 });
 
-axiosInstance.interceptors.response.use((response: any) => response, (error: any) => {
+axiosInstance.interceptors.response.use((response) => response, (error) => {
 
     
     if(error.code === 'ERR_BAD_REQUEST'){
@@ -22,36 +22,40 @@ axiosInstance.interceptors.response.use((response: any) => response, (error: any
     // if (error.response?.status === 500) {
     //     console.log("Unexpected error occurred");
     // }
-    // if (error.response?.status === 401) {
-    //     localStorage.removeItem('token');
-    // }
+  
     throw error;
 });
-axiosInstance.interceptors.response.use(async (response: any) => response, (error: any) => {
+axiosInstance.interceptors.response.use(async (response) => response, (error) => {
     if (!error.response) {
         return;
     }
 
-    if (error?.response?.status === 500) {
-        console.log('500 error occured', error.response.data)
-        return error.response
-    }
+    // if (error?.response?.status === 500) {
+    //     console.log('500 error occured', error.response.data)
+    //     return error.response
+    // }
 
-    if (error?.response?.status === 404) {
-        console.log('404 Error Occurred', error.response)
-        return error.response
-    }
-    if (error?.response?.status === 400) {
-        Alert.alert('error', error.response.data.message.friendlyMessage);
-        console.log('404 Error Occurred', error.response.data.message)
-        return error.response
-    }
+    // if (error?.response?.status === 404) {
+    //     console.log('404 Error Occurred', error.response)
+    //     return error.response
+    // }
+    // if (error?.response?.status === 400) {
+    //     Alert.alert('error', error.response.data.message.friendlyMessage);
+    //     console.log('404 Error Occurred', error.response.data.message)
+    //     return error.response
+    // }
+
+    // if (error.response?.status === 401) {
+    //     // console.log("UnAuthorized", error.response);
+    //     // Alert.alert('error', error.response.data.message.friendlyMessage);
+    //     return;
+    // }
     throw error;
 });
 
 
 axiosInstance.interceptors.request.use(
-    async (config: any) => { 
+    async (config) => { 
       
         const sessionToken = await AsyncStorage.getItem('token');
         // console.log('sessionToken', sessionToken);
@@ -61,7 +65,7 @@ axiosInstance.interceptors.request.use(
         }
         return config;
     },
-    (error: any) => {
+    (error) => {
         return Promise.reject(error);
     },
 );
