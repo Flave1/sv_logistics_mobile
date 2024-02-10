@@ -9,7 +9,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { Header } from "../components";
-import { AndroidSafeArea, dummyData } from "../constants";
+import { AndroidSafeArea, dummyData } from "../utils/constants";
 
 export default function AllOffers() {
     const navigation = useNavigation();

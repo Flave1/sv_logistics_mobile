@@ -4,11 +4,13 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 import {Shadow} from 'react-native-shadow-2';
 import Modal from 'react-native-modal';
 
-import {COLORS, SIZES, dishes, FONTS, dummyData} from '../constants';
+import {COLORS, SIZES, dishes, FONTS, dummyData} from '../utils/constants';
 import {HomeSvg, ProfileSvg, HeartSvg, BagSvg, PlaceSvg, CroissantSvg, InfoSvg, ArrowTwo, TruckSvg, StarThreeSvg, CrossSvg, PhoneSvg, MapPinTwoSvg, MailSvg, ClockSvg, TruckTwoSvg, FacebookSvg, GoogleSvg, TwitterSvg, PlusSvg} from './svg';
 import {AddToCartAction, ClearCartAction, GetRestaurantCategoriesAction, GetRestaurantMenuAction, GetRestaurantMenuByCategoryAction} from '../context/actions';
 import {connect, useDispatch, useSelector} from 'react-redux';
 import BottomTabs from '../components/BottomTabs';
+import {socket} from '../context/service/socket-service';
+import {formatNumberWithSeparator} from '../utils/common';
 
 // const categories = [
 //   {
@@ -48,113 +50,48 @@ function RestaurantMenu({shopCategories, shopMenu, user}) {
   const {sessionId} = useSelector(state => state.authState);
 
   useEffect(() => {
-    async function fetchData() {
-      await (
-        await GetRestaurantCategoriesAction(restaurant.id, setAllCategory)
-      )(dispatch);
-      await (
-        await GetRestaurantMenuAction(restaurant.id, setAllMenu)
-      )(dispatch);
+    function fetchData() {
+      GetRestaurantCategoriesAction(restaurant.id, setAllCategory)(dispatch);
     }
     restaurant?.id && fetchData();
   }, [restaurant?.id, dispatch]);
 
   useEffect(() => {
-    async function fetchData() {
-      category && category == -1 && (await (await GetRestaurantMenuAction(restaurant.id, setAllMenu))(dispatch));
-      category && category != -1 && (await (await GetRestaurantMenuByCategoryAction(category, setAllMenu))(dispatch));
-    }
-    fetchData();
-  }, [restaurant.id, category, dispatch]);
-
-  useEffect(() => {
     setCategory(-1);
   }, []);
 
-  const tabs = [
-    {
-      id: '1',
-      screen: 'Home',
-      icon: <HomeSvg color={COLORS.gray} />,
-    },
-    {
-      id: '2',
-      screen: 'Places',
-      icon: <PlaceSvg color={COLORS.gray} />,
-    },
-    {
-      id: '3',
-      screen: 'CartIsEmpty',
-      icon: (
-        <View
-          style={{
-            width: 76,
-            height: 76,
-            backgroundColor: COLORS.white,
-            top: -30,
-            borderRadius: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              width: 64,
-              height: 64,
-              backgroundColor: COLORS.orange,
-              borderRadius: 35,
-              justifyContent: 'center',
-              alignItems: 'center',
-              zIndex: 1,
-            }}>
-            <BagSvg />
-            <View
-              style={{
-                width: 22,
-                height: 22,
-                backgroundColor: COLORS.white,
-                borderRadius: 11,
-                justifyContent: 'center',
-                alignItems: 'center',
-                position: 'absolute',
-                right: 11,
-                bottom: 11,
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: COLORS.golden,
-                  ...FONTS.Lato_900Black,
-                  color: COLORS.orange,
-                }}>
-                5
-              </Text>
-            </View>
-          </View>
-          <Text
-            style={{
-              fontSize: 12,
-              fontFamily: 'Lato-Regular',
-              textAlign: 'center',
-              color: COLORS.orange,
-              position: 'absolute',
-              bottom: -15,
-            }}>
-            $48.93
-          </Text>
-        </View>
-      ),
-    },
-    {
-      id: '4',
-      screen: 'Favorite',
-      icon: <HeartSvg color={COLORS.gray} />,
-    },
-    {
-      id: '5',
-      screen: 'Profile',
-      icon: <ProfileSvg color={COLORS.gray} />,
-    },
-  ];
+  const [fetch, setFetch] = useState(null);
+  socket.on(`get_restaurant_menu_event_${restaurant.id}`, response => {
+    setFetch(response);
+  });
+  useEffect(() => {
+    async function fetchData() {
+      if (category) {
+        category == -1 && GetRestaurantMenuAction(restaurant.id, setAllMenu)(dispatch);
+        category != -1 && GetRestaurantMenuByCategoryAction(category, setAllMenu)(dispatch);
+      } else {
+        GetRestaurantMenuAction(restaurant.id, setAllMenu)(dispatch);
+      }
+    }
+    restaurant?.id && fetchData();
+  }, [fetch, restaurant?.id, category]);
+
+  useEffect(() => {
+    const joinRoom = () => {
+      if (socket) {
+        socket.emit('join_room', {roomName: `get_restaurant_menu_event_${restaurant.id}`});
+      }
+    };
+    joinRoom();
+    return () => {
+      if (socket) {
+        socket.emit('leave_room', {roomName: `get_restaurant_menu_event_${restaurant.id}`}, response => {
+          console.log(`left ${response}`);
+        });
+        socket.off(`get_restaurant_menu_event_${restaurant.id}`);
+      }
+    };
+  }, [socket, restaurant.id]);
 
   function renderHeader() {
     return (
@@ -333,7 +270,8 @@ function RestaurantMenu({shopCategories, shopMenu, user}) {
           justifyContent: 'space-between',
           top: -10,
         }}>
-        {allMenu.length > 0 &&
+        {allMenu &&
+          allMenu.length > 0 &&
           allMenu.map((item, index) => {
             return (
               <Shadow key={item.id} offset={[0, 0]} distance={15} startColor={'rgba(6, 38, 100, 0.03)'} finalColor={'rgba(6, 38, 100, 0.0)'}>
@@ -384,7 +322,8 @@ function RestaurantMenu({shopCategories, shopMenu, user}) {
                           ...FONTS.Lato_400Regular,
                           fontSize: 12,
                         }}>
-                        ${item.price}
+                        {'item.restaurant.country.currencyCode'}
+                        {formatNumberWithSeparator(Number(item.price))}
                       </Text>
                       {menuCart.some(mn => mn.menuId == item.id) == false ? (
                         <TouchableOpacity

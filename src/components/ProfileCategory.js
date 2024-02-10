@@ -2,7 +2,7 @@ import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 
 import {ProfileArrowSvg} from '../screens/svg';
-import {COLORS, SIZES} from '../constants';
+import {COLORS, SIZES} from '../utils/constants';
 
 export default function ProfileCategory({icon, title, onPress}) {
   return (

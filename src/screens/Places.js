@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Shadow} from 'react-native-shadow-2';
 
-import {AndroidSafeArea, FONTS, dummyData, COLORS, categories} from '../constants';
+import {AndroidSafeArea, FONTS, dummyData, COLORS, categories} from '../utils/constants';
 import {StarSvg, ElementSvg, SmallMapPin, FreeDeliverySvg, ProfileArrowSvg, FilterSvg, MicrophoneSvg} from './svg';
 import {connect, useDispatch} from 'react-redux';
 import {GetAllShopsAction} from '../context/actions';

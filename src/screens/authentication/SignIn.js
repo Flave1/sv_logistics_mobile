@@ -1,9 +1,9 @@
 import {View, Text, TouchableOpacity, SafeAreaView} from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import {useNavigation} from '@react-navigation/native';
 
-import {AndroidSafeArea, COLORS, FONTS, SIZES} from '../../constants';
+import {AndroidSafeArea, COLORS, FONTS, SIZES} from '../../utils/constants';
 import {Button, InputField} from '../../components';
 import {FacebookSvg, TwitterSvg, GoogleSvg, CheckSvg, EyeOffSvg} from '../svg';
 import {connect, useDispatch} from 'react-redux';
@@ -21,26 +21,13 @@ function SignIn(props) {
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const validation = Yup.object().shape({
-    email: Yup.string()
-      .email('Email is invalid')
-      .min(2, 'Email Too Short!')
-      .max(50, 'Username Too Long!')
-      .required('Username is required to login'),
-    password: Yup.string()
-      .required('Password Required')
-      .min(4, 'Password must be a minimum of 4 characters'),
+    email: Yup.string().email('Email is invalid').min(2, 'Email Too Short!').max(50, 'Username Too Long!').required('Username is required to login'),
+    password: Yup.string().required('Password Required').min(4, 'Password must be a minimum of 4 characters'),
   });
 
-  const {
-    handleChange,
-    handleSubmit,
-    values,
-    setFieldValue,
-    handleBlur,
-    errors,
-    touched,
-  } = useFormik({
+  const {handleChange, handleSubmit, values, setFieldValue, handleBlur, errors, touched} = useFormik({
     initialValues: {
       email: 'cafayadmin@gmail.com',
       password: 'Password123',
@@ -146,11 +133,7 @@ function SignIn(props) {
     );
   }
 
-  return (
-    <SafeAreaView style={{...AndroidSafeArea.AndroidSafeArea}}>
-      {renderContent()}
-    </SafeAreaView>
-  );
+  return <SafeAreaView style={{...AndroidSafeArea.AndroidSafeArea}}>{renderContent()}</SafeAreaView>;
 }
 
 const mapStateToProps = state => {

@@ -1,15 +1,15 @@
 const creditCards = [
     {
         id: "1",
-        background: require("../assets/images/credit-cards/01.png"),
+        background: require("../../assets/images/credit-cards/01.png"),
     },
     {
         id: "2",
-        background: require("../assets/images/credit-cards/02.png"),
+        background: require("../../assets/images/credit-cards/02.png"),
     },
     {
         id: "3",
-        background: require("../assets/images/credit-cards/03.png"),
+        background: require("../../assets/images/credit-cards/03.png"),
     },
 ];
 
@@ -39,5 +39,6 @@ const categories = [
         category: "Drinks",
     },
 ];
+
 
 export { creditCards, categories };

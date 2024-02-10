@@ -3,7 +3,7 @@ import React from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { useNavigation } from "@react-navigation/native";
 
-import { AndroidSafeArea, COLORS, FONTS, SIZES } from "../../constants";
+import { AndroidSafeArea, COLORS, FONTS, SIZES } from "../../utils/constants";
 import { Button, InputField } from "../../components";
 import {
     FacebookSvg,

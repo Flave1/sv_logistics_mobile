@@ -4,7 +4,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import PhoneInput from 'react-native-phone-input';
 import {useNavigation} from '@react-navigation/native';
 
-import {AndroidSafeArea, COLORS, FONTS} from '../../constants';
+import {AndroidSafeArea, COLORS, FONTS} from '../../utils/constants';
 import {Header, Button} from '../../components';
 
 export default function VerifyPhoneNumber() {

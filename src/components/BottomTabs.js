@@ -1,13 +1,13 @@
 import { View, TouchableOpacity, Text } from "react-native";
 import { Shadow } from "react-native-shadow-2";
-import { COLORS, FONTS, SIZES, dishes } from "../constants";
+import { COLORS, FONTS, SIZES, dishes } from "../utils/constants";
 import { HomeSvg, PlaceSvg, BagSvg, HeartSvg, ProfileSvg } from "../screens/svg";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
 function BottomTabs(){
     const navigation = useNavigation();
-    const {menuCart} = useSelector((state: any) => state.cartState);
+    const {menuCart} = useSelector(state => state.cartState);
     const tabs = [
         {
           id: '1',

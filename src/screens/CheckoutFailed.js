@@ -2,7 +2,7 @@ import { View, Text, Image, ScrollView } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-import { SIZES, COLORS, FONTS } from "../constants";
+import { SIZES, COLORS, FONTS } from "../utils/constants";
 import { Button } from "../components";
 
 export default function CheckoutFailed() {

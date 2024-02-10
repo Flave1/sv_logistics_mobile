@@ -20,7 +20,7 @@ import {
 } from '../svg';
 import {connect, useDispatch} from 'react-redux';
 import { LogUserOutAction, removeBoardedUser } from '../../context/actions';
-import { COLORS, FONTS } from '../../constants';
+import { COLORS, FONTS } from '../../utils/constants';
 import { ProfileCategory } from '../../components';
 
 function Profile(props) {

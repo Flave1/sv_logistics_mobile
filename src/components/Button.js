@@ -1,7 +1,7 @@
 import {Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-import {COLORS} from '../constants';
+import {COLORS} from '../utils/constants';
 
 export default function Button({title, containerStyle, onPress, textStyle}) {
   return (

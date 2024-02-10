@@ -11,8 +11,6 @@ export const LoginAction = (email, password, navigation) => {
   return dispatch =>
     signin(email, password)
       .then(response => {
-        console.log('response', response.data);
-
         storeUserToken(response.data.access_token).then(() => {
           getUserContext().then(context => {
             dispatch({

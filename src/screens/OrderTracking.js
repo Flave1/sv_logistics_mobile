@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { Shadow } from "react-native-shadow-2";
-import { COLORS, SIZES } from "../constants";
+import { COLORS, SIZES } from "../utils/constants";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 

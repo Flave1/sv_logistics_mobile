@@ -2,7 +2,7 @@ import {View, KeyboardAvoidingView, TouchableOpacity, StyleSheet, Text, Platform
 import MapView, {PROVIDER_GOOGLE, Callout, Marker} from 'react-native-maps';
 import {Button, InputField} from '../../components';
 import {CustomMarkerView, CustomCalloutView} from '../../components/maps';
-import {COLORS, SIZES, FONTS, AndroidSafeArea} from '../../constants';
+import {COLORS, SIZES, FONTS, AndroidSafeArea} from '../../utils/constants';
 import React, {useEffect, useState} from 'react';
 
 import * as Yup from 'yup';

@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {ProfileArrowSvg, StarTwoSvg, SmallMapPin, MinusSvg, BasketSvg, PromocodeAppliedSvg, PlusSvg} from './svg';
 import {Button, Header} from '../components';
-import {COLORS, FONTS, AndroidSafeArea, dummyData, dishes} from '../constants';
+import {COLORS, FONTS, AndroidSafeArea, dummyData, dishes} from '../utils/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {AddToCartAction, GetCartListAction, RemoveFromCartAction} from '../context/actions';
 import {getCheckoutMenuList} from '../context/service';

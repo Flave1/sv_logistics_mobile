@@ -34,8 +34,8 @@ export const GetAllShopsAction = async () => {
       });
 };
 
-export const GetRestaurantCategoriesAction = async (restaurantId: number, setAllCategory) => {
-  return dispatch =>
+export const GetRestaurantCategoriesAction = (restaurantId, setAllCategory) => {
+  return dispatch => {
     getRestaurantCategories(restaurantId)
       .then(response => {
         const categories = [{id: -1, name: 'All Dishies'}, ...response.data];
@@ -49,10 +49,11 @@ export const GetRestaurantCategoriesAction = async (restaurantId: number, setAll
         const errorMessage = error.response.data.message;
         console.log('errorMessage', errorMessage);
       });
+  };
 };
 
-export const GetRestaurantMenuAction = async (restaurantId: number, setAllMenu) => {
-  return async dispatch =>
+export const GetRestaurantMenuAction = (restaurantId, setAllMenu) => {
+  return dispatch =>
     getRestaurantMenu(restaurantId)
       .then(response => {
         setAllMenu(response.data);
@@ -67,7 +68,7 @@ export const GetRestaurantMenuAction = async (restaurantId: number, setAllMenu) 
       });
 };
 
-export const GetRestaurantMenuByCategoryAction = async (categoryId: number, setAllMenu) => {
+export const GetRestaurantMenuByCategoryAction = (categoryId, setAllMenu) => {
   return dispatch =>
     getRestaurantByCategoryMenu(categoryId)
       .then(response => {

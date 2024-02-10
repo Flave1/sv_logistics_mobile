@@ -2,7 +2,7 @@ import {View, Text, ScrollView} from 'react-native';
 import React from 'react';
 
 import {EmptySvg} from './svg';
-import {COLORS, FONTS} from '../constants';
+import {COLORS, FONTS} from '../utils/constants';
 
 export default function CartIsEmpty() {
   function renderContent() {

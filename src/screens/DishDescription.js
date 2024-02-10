@@ -2,11 +2,12 @@ import {View, Text, TouchableOpacity, Image, StatusBar} from 'react-native';
 import React from 'react';
 import {useRoute, useNavigation} from '@react-navigation/native';
 
-import {COLORS, SIZES, FONTS} from '../constants';
+import {COLORS, SIZES, FONTS} from '../utils/constants';
 import {MinusSvg, ArrowSvg, PlusSvg} from './svg';
 import {useDispatch, useSelector} from 'react-redux';
 import {AddToCartAction, RemoveFromCartAction} from '../context/actions';
 import BottomTabs from '../components/BottomTabs';
+import { formatNumberWithSeparator } from '../utils/common';
 
 export default function DishDescription() {
   navigation = useNavigation();
@@ -77,7 +78,7 @@ export default function DishDescription() {
                 fontSize: 20,
                 color: COLORS.carrot,
               }}>
-              ${dish.price}
+              {'item.restaurant.country.currencyCode'}{formatNumberWithSeparator(Number(dish.price))}
               {'  '}
             </Text>
             <Text

@@ -9,7 +9,7 @@ import {
 import React, {useState} from 'react';
 import Svg, {Path} from 'react-native-svg';
 
-import {AndroidSafeArea, FONTS, COLORS, dummyData} from '../constants';
+import {AndroidSafeArea, FONTS, COLORS, dummyData} from '../utils/constants';
 
 export default function Favorite() {
   const [favorite, setFavorite] = useState('Places');

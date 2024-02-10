@@ -9,7 +9,7 @@ import CartIsEmpty from '../CartIsEmpty';
 import Favorite from '../Favorite';
 
 import {HomeSvg, ProfileSvg, HeartSvg, BagSvg, PlaceSvg} from '../svg';
-import {COLORS, SIZES, dishes, FONTS} from '../../constants';
+import {COLORS, SIZES, dishes, FONTS} from '../../utils/constants';
 import Profile from '../authentication/Profile';
 import {useSelector} from 'react-redux';
 

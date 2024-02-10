@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Shadow } from "react-native-shadow-2";
 
 import { Header } from "../components";
-import { AndroidSafeArea, COLORS, creditCards, FONTS } from "../constants";
+import { AndroidSafeArea, COLORS, creditCards, FONTS } from "../utils/constants";
 import { ApplePaySvg, EditTwoSvg, PayPalSvg, PlusTwoSvg } from "./svg";
 
 export default function PaymentMethod() {

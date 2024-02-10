@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Shadow} from 'react-native-shadow-2';
 
-import {COLORS, dummyData, FONTS} from '../constants';
+import {COLORS, dummyData, FONTS} from '../utils/constants';
 import {MicrophoneSvg, ElementSvg, ProfileArrowSvg, SmallMapPin, FreeDeliverySvg, StarSvg, ViewAllSvg, BurgerSvg, GuacamoleSvg, PizzaSvg, SushiSvg, DoughnutSvg, FreeFromSvg} from './svg';
 import {GetPopularShopsAction} from '../context/actions';
 import {connect, useDispatch} from 'react-redux';

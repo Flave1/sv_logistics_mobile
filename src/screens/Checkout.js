@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Shadow } from "react-native-shadow-2";
 
 import { Header, CheckoutCategory, Button } from "../components";
-import { AndroidSafeArea, COLORS, FONTS, SIZES } from "../constants";
+import { AndroidSafeArea, COLORS, FONTS, SIZES } from "../utils/constants";
 import {
     ClipboardSvg,
     SmallMapPinTwo,

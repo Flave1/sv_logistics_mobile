@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import {Header, Button} from '../../components';
-import {FONTS, AndroidSafeArea, COLORS} from '../../constants';
+import {FONTS, AndroidSafeArea, COLORS} from '../../utils/constants';
 import {HomeTwoSvg, BriefcaseSvg, MapPinSvg} from '../svg';
 import {getAddresses, setDefaultAddress} from '../../context/service';
 import ProtectedScreensContainer from '../../components/ProtectedScreensContainer';

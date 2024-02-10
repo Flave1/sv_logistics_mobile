@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { Header, Button } from "../components";
-import { AndroidSafeArea, COLORS, FONTS } from "../constants";
+import { AndroidSafeArea, COLORS, FONTS } from "../utils/constants";
 import { SelectSvg, CheckTwoSvg } from "./svg";
 
 const sortBy = [

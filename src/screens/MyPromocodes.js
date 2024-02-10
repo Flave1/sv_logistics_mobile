@@ -10,7 +10,7 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import {Header} from '../components';
-import {AndroidSafeArea, COLORS, FONTS} from '../constants';
+import {AndroidSafeArea, COLORS, FONTS} from '../utils/constants';
 import {CopySvg} from './svg';
 
 const promocodes = [

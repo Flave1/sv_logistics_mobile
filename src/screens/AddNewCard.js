@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { Header, InputField, Button } from "../components";
-import { AndroidSafeArea } from "../constants";
+import { AndroidSafeArea } from "../utils/constants";
 import { CameraSvg } from "./svg";
 
 export default function AddNewCard() {

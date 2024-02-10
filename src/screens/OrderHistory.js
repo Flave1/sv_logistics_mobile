@@ -12,7 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 import Accordion from 'react-native-collapsible/Accordion';
 import {Shadow} from 'react-native-shadow-2';
 
-import {AndroidSafeArea, COLORS, FONTS, dummyData} from '../constants';
+import {AndroidSafeArea, COLORS, FONTS, dummyData} from '../utils/constants';
 import {Header} from '../components';
 import {ElementTwoSvg, DeliveredSvg} from './svg';
 
