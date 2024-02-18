@@ -9,15 +9,23 @@ import CartIsEmpty from '../CartIsEmpty';
 import Favorite from '../Favorite';
 
 import {HomeSvg, ProfileSvg, HeartSvg, BagSvg, PlaceSvg} from '../svg';
-import {COLORS, SIZES, dishes, FONTS} from '../../utils/constants';
+import {COLORS, SIZES, FONTS} from '../../utils/constants';
 import Profile from '../authentication/Profile';
 import {useSelector} from 'react-redux';
+import {onTabNavigate} from '../../utils/common';
+import {TabButton} from '../../components/BottomTabs';
+import {isAuthenticated} from '../../context/service';
 
 export default function MainLayout(props) {
   const navigation = useNavigation();
 
   const [selectedTab, setSelectedTab] = useState('Home');
-  const {menuCart} = useSelector((state) => state.cartState);
+  const {menuCart} = useSelector(state => state.cartState);
+  const isLoggedIn = useSelector(state => isAuthenticated(state.authState));
+
+  useEffect(() => {
+    props?.route?.params?.screen ? setSelectedTab(props?.route?.params?.screen) : setSelectedTab('Home');
+  }, [props?.route?.params?.screen]);
 
   const tabs = [
     {
@@ -32,7 +40,7 @@ export default function MainLayout(props) {
     },
     {
       id: '3',
-      screen: 'CartIsEmpty',
+      screen: 'Order',
       icon: (
         <View
           style={{
@@ -110,7 +118,7 @@ export default function MainLayout(props) {
       {selectedTab === 'Places' && <Places />}
       {selectedTab === 'CartIsEmpty' && <CartIsEmpty />}
       {selectedTab === 'Favorite' && <Favorite />}
-      {selectedTab === 'Profile' && <Profile />}
+      {selectedTab === 'Profile' && <Profile isAuthenticated={isLoggedIn} />}
       <Shadow offset={[0, 0]} distance={15} startColor={'rgba(6, 38, 100, 0.06)'} finalColor={'rgba(6, 38, 100, 0.0)'}>
         <View
           style={{
@@ -127,45 +135,8 @@ export default function MainLayout(props) {
           }}>
           {tabs.map((item, index) => {
             return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => (item.screen === 'CartIsEmpty' && dishes.length !== 0 ? navigation.navigate('Order') : setSelectedTab(item.screen))}
-                activeOpacity={0.8}>
-                <View>
-                  <View
-                    style={{
-                      alignSelf: 'center',
-                      height: item.screen !== 'CartIsEmpty' ? 24 : 80,
-                      width: item.screen !== 'CartIsEmpty' ? 24 : 78,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    {item.icon}
-                  </View>
-                  {item.screen !== 'CartIsEmpty' && (
-                    <View style={{alignItems: 'center'}}>
-                      <View
-                        style={{
-                          width: 4,
-                          height: 4,
-                          borderRadius: 2,
-                          backgroundColor: selectedTab == item.screen ? COLORS.orange : COLORS.transparent,
-                          marginTop: 4,
-                        }}
-                      />
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          lineHeight: 16 * 1,
-                          fontSize: 12,
-                          fontFamily: 'Lato-Regular',
-                          color: selectedTab == item.screen ? COLORS.orange : COLORS.gray,
-                        }}>
-                        {item.screen}
-                      </Text>
-                    </View>
-                  )}
-                </View>
+              <TouchableOpacity key={index} onPress={() => onTabNavigate(tabs, item.screen, navigation, menuCart.length === 0)} activeOpacity={0.8}>
+                <TabButton item={item} selectedTab={selectedTab} />
               </TouchableOpacity>
             );
           })}
@@ -174,4 +145,3 @@ export default function MainLayout(props) {
     </View>
   );
 }
-

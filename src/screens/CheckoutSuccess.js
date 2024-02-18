@@ -33,6 +33,7 @@ export default function CheckoutSuccess() {
                         textAlign: "center",
                         lineHeight: 40 * 1,
                         marginBottom: 10,
+                        color: COLORS.black
                     }}
                 >
                     Thank you for your order!

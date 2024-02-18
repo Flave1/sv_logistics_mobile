@@ -1,38 +1,18 @@
-import {
-  View,
-  Text,
-  ImageBackground,
-  StatusBar,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, ImageBackground, StatusBar, ScrollView, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Shadow} from 'react-native-shadow-2';
 import {useNavigation} from '@react-navigation/native';
-import {
-  CalendarSvg,
-  CreditCardSvg,
-  MapPinSvg,
-  GiftSvg,
-  LogOutSvg,
-  EditSvg,
-} from '../svg';
-import {connect, useDispatch} from 'react-redux';
-import { LogUserOutAction, removeBoardedUser } from '../../context/actions';
-import { COLORS, FONTS } from '../../utils/constants';
-import { ProfileCategory } from '../../components';
+import {CalendarSvg, CreditCardSvg, MapPinSvg, GiftSvg, LogOutSvg, EditSvg} from '../svg';
+import {connect, useDispatch, useSelector} from 'react-redux';
+import {LogUserOutAction, removeBoardedUser} from '../../context/actions';
+import {COLORS, FONTS} from '../../utils/constants';
+import {ProfileCategory} from '../../components';
 
 function Profile(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   // if (!props.user) {
-  //   //   navigation.navigate('SignIn');
-  //   //   return;
-  //   // }
-  // }, [props.user]);
+  const {user} = useSelector(state => state.authState);
 
   function renderHeader() {
     return (
@@ -73,20 +53,14 @@ function Profile(props) {
     );
   }
 
-  function renderPersonInfo() {
+  function renderPersonInfo(user) {
     return (
       <View
         style={{
           paddingHorizontal: 16,
           top: -40,
         }}>
-        <Shadow
-          offset={[0, 0]}
-          distance={10}
-          startColor={'rgba(6, 38, 100, 0.05)'}
-          finalColor={'rgba(6, 38, 100, 0.0)'}
-          viewStyle={{width: '100%'}}
-          style={{width: '100%'}}>
+        <Shadow offset={[0, 0]} distance={10} startColor={'rgba(6, 38, 100, 0.05)'} finalColor={'rgba(6, 38, 100, 0.0)'} viewStyle={{width: '100%'}} style={{width: '100%'}}>
           <TouchableOpacity
             style={{
               width: '100%',
@@ -116,7 +90,8 @@ function Profile(props) {
                   color: COLORS.black,
                   lineHeight: 24 * 1.2,
                 }}>
-                {props.user?.firstName + ' ' + props.user?.lastName}
+                {props.isAuthenticated && user?.firstName + ' ' + user?.lastName}
+                <Text style={{color: COLORS.orange, fontSize: 15, fontStyle: 'italic'}}>{!props.isAuthenticated && 'login' + ' ' + 'required'}</Text>
               </Text>
               <Text
                 style={{
@@ -125,7 +100,8 @@ function Profile(props) {
                   color: COLORS.gray,
                   lineHeight: 14 * 1.5,
                 }}>
-                {props.user?.phoneNumber}
+                {props.isAuthenticated && user?.phoneNumber}
+                {!props.isAuthenticated && 'Unable to find customer information'}
               </Text>
             </View>
             <View style={{position: 'absolute', top: 16, right: 16}}>
@@ -137,44 +113,24 @@ function Profile(props) {
     );
   }
 
-  function renderProfileCategory() {
+  function renderProfileCategory(isLoggedIn) {
     return (
       <View style={{width: '100%', paddingHorizontal: 16, top: -20}}>
-        <ProfileCategory
-          title="Orders History"
-          icon={<CalendarSvg />}
-          onPress={() => navigation.navigate('OrderHistory')}
-        />
-        <ProfileCategory
-          title="Payment Method"
-          icon={<CreditCardSvg />}
-          onPress={() => navigation.navigate('PaymentMethod')}
-        />
-        <ProfileCategory
-          title="My Address"
-          icon={<MapPinSvg />}
-          onPress={() => navigation.navigate('MyAddress')}
-        />
-        <ProfileCategory
-          title="My Promocodes"
-          icon={<GiftSvg />}
-          onPress={() => navigation.navigate('MyPromocodes')}
-        />
-        {props.user ? (
+        <ProfileCategory title="Orders History" icon={<CalendarSvg />} onPress={() => navigation.navigate('OrderHistory')} isLoginRequired={false} />
+        <ProfileCategory title="Payment Method" icon={<CreditCardSvg />} onPress={() => navigation.navigate('PaymentMethod')} isLoginRequired={false} />
+        <ProfileCategory title="My Address" icon={<MapPinSvg />} onPress={() => navigation.navigate('MyAddress')} isLoginRequired={isLoggedIn ? false : true} />
+        <ProfileCategory title="My Promocodes" icon={<GiftSvg />} onPress={() => navigation.navigate('MyPromocodes')} isLoginRequired={false} />
+        {props.isAuthenticated ? (
           <ProfileCategory
             title="Sign Out"
             icon={<LogOutSvg />}
             onPress={async () => {
               await LogUserOutAction()(dispatch);
-              navigation.navigate('SignIn')
+              navigation.navigate('SignIn');
             }}
           />
         ) : (
-          <ProfileCategory
-            title="Sign In"
-            icon={<LogOutSvg />}
-            onPress={() => navigation.navigate('SignIn')}
-          />
+          <ProfileCategory title="Sign In" icon={<LogOutSvg />} onPress={() => navigation.navigate('SignIn')} />
         )}
 
         <ProfileCategory
@@ -191,20 +147,13 @@ function Profile(props) {
   return (
     <View style={{flex: 1}}>
       <StatusBar barStyle="light-content" />
-      <ScrollView
-        contentContainerStyle={{flexGrow: 1, paddingBottom: 35}}
-        showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 35}} showsVerticalScrollIndicator={false}>
         {renderHeader()}
-        {renderPersonInfo()}
-        {renderProfileCategory()}
+        {renderPersonInfo(user)}
+        {renderProfileCategory(props.isAuthenticated)}
       </ScrollView>
     </View>
   );
 }
-const mapStateToProps = state => {
-  return {
-    user: state.authState.user,
-  };
-};
 
-export default connect(mapStateToProps)(Profile);
+export default Profile;

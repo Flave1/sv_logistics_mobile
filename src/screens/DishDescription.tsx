@@ -1,23 +1,39 @@
-import {View, Text, TouchableOpacity, Image, StatusBar} from 'react-native';
 import React from 'react';
+import {View, Text, TouchableOpacity, Image, StatusBar} from 'react-native';
 import {useRoute, useNavigation} from '@react-navigation/native';
 
 import {COLORS, SIZES, FONTS} from '../utils/constants';
 import {MinusSvg, ArrowSvg, PlusSvg} from './svg';
-import {useDispatch, useSelector} from 'react-redux';
-import {AddToCartAction, RemoveFromCartAction} from '../context/actions';
+import {connect, useDispatch, useSelector} from 'react-redux';
+import {AddAction, AddToCartAction, RemoveFromCartAction} from '../context/actions';
 import BottomTabs from '../components/BottomTabs';
-import { formatNumberWithSeparator } from '../utils/common';
+import {formatNumberWithSeparator} from '../utils/common';
 
-export default function DishDescription() {
-  navigation = useNavigation();
+function DishDescription() {
+  const {menuCart} = useSelector((state: any) => state.cartState);
+  const {user, sessionId} = useSelector((state: any) => state.authState);
+  console.log('menuCart', menuCart);
+
+  // const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const {menuCart} = useSelector(state => state.cartState);
-  const {user, sessionId} = useSelector(state => state.authState);
-
   const route = useRoute();
-  const {dish} = route.params;
+  const {dish}: any = route.params;
+
+  function removeFromCart() {
+    RemoveFromCartAction(dish.id, user.id, sessionId)(dispatch);
+  }
+
+  function addToCart() {
+    AddToCartAction({
+      customerId: user.id,
+      restaurantId: dish.id,
+      menuId: dish.id,
+      quantity: 1,
+      price: dish.price,
+      temporalId: sessionId,
+    })(dispatch);
+  }
 
   function renderSlider() {
     return (
@@ -78,7 +94,7 @@ export default function DishDescription() {
                 fontSize: 20,
                 color: COLORS.carrot,
               }}>
-              {'item.restaurant.country.currencyCode'}{formatNumberWithSeparator(Number(dish.price))}
+              {/* {'item.restaurant.country.currencyCode'} */}₦{formatNumberWithSeparator(Number(dish.price))}
               {'  '}
             </Text>
             <Text
@@ -96,9 +112,7 @@ export default function DishDescription() {
               alignItems: 'center',
             }}>
             <TouchableOpacity
-              onPress={() => {
-                RemoveFromCartAction(dish.id, user.id, sessionId)(dispatch);
-              }}
+              onPress={removeFromCart}
               style={{
                 width: 36,
                 height: 36,
@@ -109,18 +123,9 @@ export default function DishDescription() {
               }}>
               <MinusSvg />
             </TouchableOpacity>
-            <Text style={{marginHorizontal: 10}}>{menuCart.find(mn => mn.menuId == dish.id)?.quantity ?? 0}</Text>
+            <Text style={{marginHorizontal: 10, color: COLORS.black}}>{menuCart.find((mn: any) => mn.menuId == dish.id)?.quantity ?? 0}</Text>
             <TouchableOpacity
-              onPress={() => {
-                AddToCartAction({
-                  customerId: user.id,
-                  restaurantId: dish.id,
-                  menuId: dish.id,
-                  quantity: 1,
-                  price: dish.price,
-                  temporalId: sessionId,
-                })(dispatch);
-              }}
+              onPress={addToCart}
               style={{
                 width: 36,
                 height: 36,
@@ -139,7 +144,7 @@ export default function DishDescription() {
 
   return (
     <View style={{flex: 1, backgroundColor: COLORS.white}}>
-      <StatusBar barStyle="black-content" />
+      <StatusBar barStyle="light-content" />
       <TouchableOpacity
         style={{
           position: 'absolute',
@@ -151,7 +156,8 @@ export default function DishDescription() {
           alignItems: 'center',
           marginTop: 24,
         }}
-        onPress={() => navigation.goBack()}>
+        // onPress={() => navigation.goBack()}
+      >
         <ArrowSvg width={30} />
       </TouchableOpacity>
       {/* <View
@@ -182,3 +188,5 @@ export default function DishDescription() {
     </View>
   );
 }
+
+export default DishDescription;

@@ -34,8 +34,8 @@ import {isAuthenticated} from '../context/service';
 
 const Stack = createStackNavigator();
 
-function AuthNavigation({isAuthenticated}) {
-  const {menuCart} = useSelector(state => state.authState);
+function AuthNavigation() {
+  const isLoggedIn = useSelector((state: any) => isAuthenticated(state.authState));
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -61,8 +61,8 @@ function AuthNavigation({isAuthenticated}) {
         <Stack.Screen name="PaymentMethod" component={PaymentMethod} />
         <Stack.Screen name="AddNewCard" component={AddNewCard} />
         <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="MyAddress" initialParams={{isAuthenticated}} component={MyAddress} />
-        <Stack.Screen name="CreateUpdateAdddress" initialParams={{isAuthenticated}} component={CreateUpdateAdddress} />
+        <Stack.Screen name="MyAddress" initialParams={{isAuthenticated: isLoggedIn}} component={MyAddress} />
+        <Stack.Screen name="CreateUpdateAdddress" initialParams={{isAuthenticated: isLoggedIn}} component={CreateUpdateAdddress} />
         <Stack.Screen name="MyPromocodes" component={MyPromocodes} />
         <Stack.Screen name="RestaurantMenu" component={RestaurantMenu} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -77,9 +77,9 @@ function AuthNavigation({isAuthenticated}) {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: isAuthenticated(state.authState),
-  };
-};
-export default connect(mapStateToProps)(AuthNavigation);
+// const mapStateToProps = (state: any) => {
+//   return {
+//     isAuthenticated: isAuthenticated(state.authState),
+//   };
+// };
+export default AuthNavigation;

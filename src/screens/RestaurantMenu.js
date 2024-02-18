@@ -4,10 +4,10 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 import {Shadow} from 'react-native-shadow-2';
 import Modal from 'react-native-modal';
 
-import {COLORS, SIZES, dishes, FONTS, dummyData} from '../utils/constants';
-import {HomeSvg, ProfileSvg, HeartSvg, BagSvg, PlaceSvg, CroissantSvg, InfoSvg, ArrowTwo, TruckSvg, StarThreeSvg, CrossSvg, PhoneSvg, MapPinTwoSvg, MailSvg, ClockSvg, TruckTwoSvg, FacebookSvg, GoogleSvg, TwitterSvg, PlusSvg} from './svg';
+import {COLORS, SIZES, FONTS, dummyData} from '../utils/constants';
+import {CroissantSvg, InfoSvg, ArrowTwo, TruckSvg, StarThreeSvg, CrossSvg, PhoneSvg, MapPinTwoSvg, MailSvg, ClockSvg, TruckTwoSvg, FacebookSvg, GoogleSvg, TwitterSvg, PlusSvg} from './svg';
 import {AddToCartAction, ClearCartAction, GetRestaurantCategoriesAction, GetRestaurantMenuAction, GetRestaurantMenuByCategoryAction} from '../context/actions';
-import {connect, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import BottomTabs from '../components/BottomTabs';
 import {socket} from '../context/service/socket-service';
 import {formatNumberWithSeparator} from '../utils/common';
@@ -35,7 +35,7 @@ import {formatNumberWithSeparator} from '../utils/common';
 //   },
 // ];
 
-function RestaurantMenu({shopCategories, shopMenu, user}) {
+function RestaurantMenu() {
   const navigation = useNavigation();
   const route = useRoute();
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ function RestaurantMenu({shopCategories, shopMenu, user}) {
   const [allMenu, setAllMenu] = useState([]);
 
   const {menuCart} = useSelector(state => state.cartState);
-  const {sessionId} = useSelector(state => state.authState);
+  const {sessionId, user} = useSelector(state => state.authState);
 
   useEffect(() => {
     function fetchData() {
@@ -322,8 +322,7 @@ function RestaurantMenu({shopCategories, shopMenu, user}) {
                           ...FONTS.Lato_400Regular,
                           fontSize: 12,
                         }}>
-                        {'item.restaurant.country.currencyCode'}
-                        {formatNumberWithSeparator(Number(item.price))}
+                        {/* {item.restaurant.country.currencyCode} */}₦{formatNumberWithSeparator(Number(item.price))}
                       </Text>
                       {menuCart.some(mn => mn.menuId == item.id) == false ? (
                         <TouchableOpacity
@@ -597,13 +596,4 @@ function RestaurantMenu({shopCategories, shopMenu, user}) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    shopCategories: state.shopState.shopCategories,
-    shopMenu: state.shopState.shopMenu,
-    menuCart: state.cartState.menuCart,
-    user: state.authState.user,
-  };
-}
-
-export default connect(mapStateToProps, null)(RestaurantMenu);
+export default RestaurantMenu;

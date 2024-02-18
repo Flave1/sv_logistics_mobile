@@ -13,9 +13,11 @@ export async function createAddress(payload) {
 
 export async function getAddresses() {
   try {
-    const response = await axiosInstance.get(`/address`);
+    const response = (await axiosInstance.get(`/address`)).data;
     return response;
-  } catch (error) {}
+  } catch (error) {
+    return [];
+  }
 }
 
 export async function getAddress(id, dispatch) {

@@ -4,7 +4,7 @@ import React from 'react';
 import {ProfileArrowSvg} from '../screens/svg';
 import {COLORS, SIZES} from '../utils/constants';
 
-export default function ProfileCategory({icon, title, onPress}) {
+export default function ProfileCategory({icon, title, onPress, isLoginRequired}) {
   return (
     <TouchableOpacity
       style={{
@@ -34,7 +34,9 @@ export default function ProfileCategory({icon, title, onPress}) {
             fontWeight: 'bold',
             color: COLORS.black,
           }}>
-          {title}
+          {title } {' '}
+          {isLoginRequired && <Text style={{color: COLORS.orange, fontSize: 12, padding: 10}}> Login required</Text>}
+          
         </Text>
         <ProfileArrowSvg />
       </View>

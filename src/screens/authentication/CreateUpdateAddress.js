@@ -70,12 +70,12 @@ function CreateUpdateAdddress({route}: any) {
     );
   }, []);
 
-  function onMarkerDragEnd(values: any) {
+  function onMarkerDragEnd(values) {
     console.log('drag end values', values);
   }
 
   const validation = Yup.object().shape({
-    label: Yup.string().required('Tag is required '),
+    label: Yup.string().required('Address title is required '),
     name: Yup.string().required('Address is required'),
   });
 
@@ -159,7 +159,7 @@ function CreateUpdateAdddress({route}: any) {
           </View>
           <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
             <InputField
-              title="tag"
+              title="Title"
               placeholder="e.g Home, Office"
               containerStyle={{marginBottom: 20}}
               icon={undefined}
